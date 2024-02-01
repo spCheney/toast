@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import useToast from "./useToast"
+import { Dispatch, useEffect, useState } from "react"
 import styles from "./toast.module.css"
+import { Action } from "./ToastTypes"
 
 /**
  * determines whether or not to display the toast
@@ -10,9 +10,8 @@ import styles from "./toast.module.css"
  * @param {number} openAnimationDuration 
  * @returns boolean - false if toast is on the screen, true if it isn't
  */
-function useIsClosed(initiateClose,  initiateOpen, closeAnimationDuration, openAnimationDuration) {
+function useIsClosed(initiateClose: boolean,  initiateOpen: boolean, closeAnimationDuration: number, openAnimationDuration: number, dispatch: Dispatch<Action>) {
   const [isClosed, setIsClosed] = useState(true)
-  const dispatch = useToast()
 
   useEffect(() => {
     //closes the toast
@@ -44,7 +43,7 @@ function useIsClosed(initiateClose,  initiateOpen, closeAnimationDuration, openA
         }, openAnimationDuration * 1000)
       }
     }
-  }, [initiateClose, initiateOpen,  closeAnimationDuration, openAnimationDuration])
+  }, [initiateClose, initiateOpen,  closeAnimationDuration, openAnimationDuration, dispatch])
 
   return isClosed
 }
@@ -55,9 +54,8 @@ function useIsClosed(initiateClose,  initiateOpen, closeAnimationDuration, openA
  * @param {boolean} isClosed 
  * @returns a css module class that set the location of the toast
  */
-function useLocation(updatedLocation, isClosed) {
+function useLocation(updatedLocation: string, isClosed: boolean, dispatch: Dispatch<Action>) {
   const [location, setLocation] = useState(styles.topLeft)
-  const dispatch = useToast()
 
   useEffect(() => {
     if(location != updatedLocation) {
@@ -68,7 +66,7 @@ function useLocation(updatedLocation, isClosed) {
         setLocation(updatedLocation)
       }
     }
-  }, [updatedLocation, isClosed])
+  }, [updatedLocation, isClosed, dispatch])
 
   return location
 }

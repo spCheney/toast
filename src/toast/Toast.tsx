@@ -1,18 +1,16 @@
+import { Props } from "./ToastTypes"
 import styles from "./toast.module.css"
-import useToast from "./useToast"
 import { useIsClosed, useLocation } from "./toastHooks"
 import { useEffect } from "react"
 
-export default function Toast({ values }) {
+export default function Toast({ values, dispatch } : Props) {
   //all in seconds
   const timeToastIsOpenFor = 20
   const closeAnimationDuration = 0.3
   const openAnimationDuration = 0.1
 
-  const isClosed = useIsClosed(values.initiateClose, values.initiateOpen, closeAnimationDuration, openAnimationDuration)
-  const location = useLocation(values.location, isClosed)
-
-  const dispatch = useToast()
+  const isClosed = useIsClosed(values.initiateClose, values.initiateOpen, closeAnimationDuration, openAnimationDuration, dispatch)
+  const location = useLocation(values.location, isClosed, dispatch)
 
   //close the toast the specified amount of time after opening it
   useEffect(() => {

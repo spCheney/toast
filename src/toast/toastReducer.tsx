@@ -1,6 +1,7 @@
+import { Action, State } from "./ToastTypes"
 import styles from "./toast.module.css"
 
-export default function toastReducer(values, action) {
+export default function toastReducer(values: State, action: Action) : State {
   switch (action.type) {
     //updates the location, typical set to where the most whitespace is
     case "updateLocation": {
@@ -15,6 +16,7 @@ export default function toastReducer(values, action) {
           location: styles.bottomLeft
         }
       }
+      break
     }
     //opens the toast
     case "open": {
@@ -53,4 +55,5 @@ export default function toastReducer(values, action) {
       }
     }
   }
+  return values
 }
