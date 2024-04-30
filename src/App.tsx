@@ -6,10 +6,12 @@ import useToast from './toast/useToast'
 
 function App() {
   const [count, setCount] = useState(0)
-  const [toast, toastDispatch] = useToast()
+  // const [Toast, toastDispatch] = useToast()
+  const [Toast, open] = useToast()
 
   return (
     <>
+      <Toast/>
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -20,7 +22,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => open(<>app open test</>)}>
           count is {count}
         </button>
         <p>

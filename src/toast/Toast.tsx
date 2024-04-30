@@ -1,36 +1,40 @@
-import { Props } from "./ToastTypes"
+import { ReactNode, useEffect, useState } from "react"
 import styles from "./toast.module.css"
-import { useIsClosed, useLocation } from "./toastHooks"
-import { useEffect } from "react"
 
-export default function Toast({ values, dispatch } : Props) {
+type Props = {
+  toastStatus: string,
+  close: () => void,
+  content?: ReactNode
+}
+
+export default function Toast({toastStatus, close, content}: Props) {
   //all in seconds
   const timeToastIsOpenFor = 20
   const closeAnimationDuration = 0.3
   const openAnimationDuration = 0.1
 
-  const isClosed = useIsClosed(values.initiateClose, values.initiateOpen, closeAnimationDuration, openAnimationDuration, dispatch)
-  const location = useLocation(values.location, isClosed, dispatch)
+  const [location, setLocation] = useState(styles.topLeft)
+  const [showCloseAni, setShowClosedAni] = useState(false)
+  const [displayToast, setDisplayToast] = useState(false)
 
-  //close the toast the specified amount of time after opening it
+  const [toastStyles, setToastStyles] = useState([styles.toast])
+
   useEffect(() => {
-    if(values.initiateOpen)  {{
-      setTimeout(() => {
-        dispatch({ type: "close"  })
-      }, timeToastIsOpenFor * 1000)
-    }}
-  }, [values.initiateOpen])
+    if(toastStatus == "OPEN") {
+      setToastStyles([styles.toast, styles.open])
+    } else if(toastStatus == "INITIATE CLOSE") {
+      setToastStyles([styles.toast, styles.close])
+    }
+  }, [toastStatus])
 
   return (
     <div className={ [styles.wrapper, location].join(' ') }>
-      {isClosed ? <></> :
-      <div className={ values.initiateClose ? [styles.toast, styles.close].join(' ') : styles.toast }>
-        <div className={ styles.text }>
-          { values.content }
-        </div>
-        <div>
-          <button onClick={() => dispatch({type: "close"}) } className={ styles.closeBtn }>x</button>
-        </div>
+      {toastStatus == "CLOSED" ? <></> :
+      <div className={ toastStyles.join(' ') }>
+        <span className={ styles.text }>
+          { content }
+        </span>
+        <button onClick={ () => close() } className={ styles.closeBtn }>x</button>
       </div>}
     </div>
   )
