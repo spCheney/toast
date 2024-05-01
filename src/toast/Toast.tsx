@@ -1,40 +1,26 @@
-import { ReactNode, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import styles from "./toast.module.css"
+import { ToastInterface } from "./Values"
+import { useStyles } from "./Hooks"
 
 type Props = {
-  toastStatus: string,
+  values: ToastInterface,
   close: () => void,
-  content?: ReactNode
 }
 
-export default function Toast({toastStatus, close, content}: Props) {
-  //all in seconds
-  const timeToastIsOpenFor = 20
-  const closeAnimationDuration = 0.3
-  const openAnimationDuration = 0.1
+export default function Toast({values, close}: Props) {
 
   const [location, setLocation] = useState(styles.topLeft)
-  const [showCloseAni, setShowClosedAni] = useState(false)
-  const [displayToast, setDisplayToast] = useState(false)
-
-  const [toastStyles, setToastStyles] = useState([styles.toast])
-
-  useEffect(() => {
-    if(toastStatus == "OPEN") {
-      setToastStyles([styles.toast, styles.open])
-    } else if(toastStatus == "INITIATE CLOSE") {
-      setToastStyles([styles.toast, styles.close])
-    }
-  }, [toastStatus])
+  const toastStyles = useStyles(values.status)
 
   return (
     <div className={ [styles.wrapper, location].join(' ') }>
-      {toastStatus == "CLOSED" ? <></> :
+      {values.status === "CLOSED" ? <></> :
       <div className={ toastStyles.join(' ') }>
         <span className={ styles.text }>
-          { content }
+          { values.content }
         </span>
-        <button onClick={ () => close() } className={ styles.closeBtn }>x</button>
+        <button onClick={ close } className={ styles.closeBtn }>x</button>
       </div>}
     </div>
   )

@@ -1,39 +1,26 @@
-import { useEffect, useState } from "react";
+import { useReducer } from "react";
 import Toast from "./Toast";
+import { toastReducer } from "./reducer";
+import { ToastValues } from "./Values";
+import { updateStatus } from "./Hooks";
 
 export default function useToast(): [() => JSX.Element, (content: JSX.Element) => void] {
-  //all in seconds
-  const timeToastIsOpenFor = 20
-  const closeAnimationDuration = 0.3
-  const openAnimationDuration = 0.1
 
-  const [toastStatus, setToastStatus] = useState<"CLOSED" | "OPEN" | "INITIATE CLOSE">("CLOSED")
-  const [content, setContent] = useState(<>just a test</>)
+  const [toastValues, dispatch] = useReducer(toastReducer, ToastValues)
 
-  useEffect(() => {
-    if(toastStatus == "INITIATE CLOSE") {
-      setTimeout(() => {
-        setToastStatus("CLOSED")
-      }, closeAnimationDuration * 1000)
-    }
-  }, [toastStatus])
+  updateStatus(toastValues.status, dispatch)
 
   function open(content: JSX.Element) {
-    setContent(content)
-    setToastStatus("OPEN")
+    dispatch({ type: "open", content: content })
   }
 
   function close() {
-    setToastStatus("INITIATE CLOSE")
-  }
-
-  function closeComplete() {
-    setToastStatus("CLOSED")
+    dispatch({ type: "close" })
   }
 
   function ToastComponent() {
     return (
-      <Toast toastStatus={toastStatus} close={close} content={content} />
+      <Toast values={toastValues} close={close} />
     )
   }
 
