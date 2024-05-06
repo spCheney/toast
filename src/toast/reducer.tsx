@@ -29,8 +29,8 @@ function toastReducer(values: ToastInterface, action: ActionType): ToastInterfac
 }
 
 interface ActionType {
-  type: "open" | "close" | "close complete",
-  content?: JSX.Element
+  type: "open" | "close" | "close complete" | "update location",
+  content?: JSX.Element,
 }
 
 export { toastReducer }

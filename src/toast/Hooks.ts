@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import styles from "./toast.module.css"
-import { ToastInterface } from "./Values"
+import { LocationType, ToastInterface } from "./Values"
 import { ActionType } from "./reducer"
 
 function useStyles(status: ToastInterface["status"]) {
@@ -38,4 +38,18 @@ function updateStatus(status: ToastInterface["status"], dispatch: React.Dispatch
   }
 }
 
-export { useStyles, updateStatus }
+function useLocation(location: LocationType) {
+  const [locationStyle, setLocationStyle] = useState(styles.topLeft)
+
+  useEffect(() => {
+    if(location == "TOP-LEFT") {
+      setLocationStyle(styles.topLeft)
+    } else if(location == "BOTTOM-LEFT") {
+      setLocationStyle(styles.bottomLeft)
+    }
+  }, [location])
+
+  return locationStyle
+}
+
+export { useStyles, updateStatus, useLocation }

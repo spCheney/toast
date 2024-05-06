@@ -1,29 +1,26 @@
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import useToast from './toast/useToast'
 
 function App() {
-  const [count, setCount] = useState(0)
-  // const [Toast, toastDispatch] = useToast()
-  const [Toast, open] = useToast()
+  const [Toast, open, updateLocation] = useToast()
 
   return (
     <>
       <Toast/>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <button onClick={() => updateLocation("TOP-LEFT")}>
           <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
+        </button>
+        <button onClick={() => updateLocation("BOTTOM-LEFT")}>
           <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        </button>
       </div>
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => open(<>app open test</>)}>
-          count is {count}
+          count is {0}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
@@ -32,6 +29,14 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <div>
+        <button onClick={() => updateLocation("TOP-LEFT")}>Top Left</button>
+        <button onClick={() => updateLocation("BOTTOM-LEFT")}>Bottom Left</button>
+      </div>
+      <br/>
+      <div>
+        <button onClick={() => open(<>app open test</>)}>Open Pop-up</button>
+      </div>
     </>
   )
 }

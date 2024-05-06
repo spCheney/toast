@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react"
 import styles from "./toast.module.css"
-import { ToastInterface } from "./Values"
-import { useStyles } from "./Hooks"
+import { LocationType, ToastInterface } from "./Values"
+import { useLocation, useStyles } from "./Hooks"
 
 type Props = {
   values: ToastInterface,
+  location: LocationType,
   close: () => void,
 }
 
-export default function Toast({values, close}: Props) {
+export default function Toast({values, location, close}: Props) {
 
-  const [location, setLocation] = useState(styles.topLeft)
+  const locationStyle = useLocation(location)
   const toastStyles = useStyles(values.status)
 
   return (
-    <div className={ [styles.wrapper, location].join(' ') }>
+    <div className={ [styles.wrapper, locationStyle].join(' ') }>
       {values.status === "CLOSED" ? <></> :
       <div className={ toastStyles.join(' ') }>
         <span className={ styles.text }>
