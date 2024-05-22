@@ -1,24 +1,45 @@
 import styles from "./toast.module.css"
 import { LocationType, ToastInterface } from "./Values"
 import { useLocation, useStyles } from "./Hooks"
+import { useEffect, useRef, useState } from "react"
 
 type Props = {
-  values: ToastInterface,
-  location: LocationType,
+  status: ToastInterface["status"],
+  content: ToastInterface["content"],
+  location: ToastInterface["location"],
   close: () => void,
 }
 
-export default function Toast({values, location, close}: Props) {
+export default function Toast({status, content, location, close}: Props) {
 
-  const locationStyle = useLocation(location)
-  const toastStyles = useStyles(values.status)
+  const locationStyle = getLocation(location)
+  const toastStyles = getStyle(status)
+  const displayToast = toastStyles.length > 1
+
+  function getLocation(location: ToastInterface["location"]) {
+    if(location == "TOP-LEFT") {
+      return styles.topLeft
+    } else if(location == "BOTTOM-LEFT") {
+      return styles.bottomLeft
+    }
+  }
+
+  function getStyle(status: ToastInterface["status"]) {
+    if(status == "OPEN") {
+      return [styles.toast, styles.open]
+    } else if(status == "INITIATE CLOSE") {
+      return [styles.toast, styles.open, styles.close]
+    } else {
+      return [styles.toast]
+    }
+  }
 
   return (
     <div className={ [styles.wrapper, locationStyle].join(' ') }>
-      {values.status === "CLOSED" ? <></> :
+      {!displayToast ? <></> :
       <div className={ toastStyles.join(' ') }>
         <span className={ styles.text }>
-          { values.content }
+          { content }
         </span>
         <button onClick={ close } className={ styles.closeBtn }>x</button>
       </div>}

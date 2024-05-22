@@ -22,6 +22,12 @@ function toastReducer(values: ToastInterface, action: ActionType): ToastInterfac
         status: "CLOSED"
       }
     }
+    case "update location": {
+      return {
+        ...values,
+        location: action.location!
+      }
+    }
     default: {
       return values
     }
@@ -31,6 +37,7 @@ function toastReducer(values: ToastInterface, action: ActionType): ToastInterfac
 interface ActionType {
   type: "open" | "close" | "close complete" | "update location",
   content?: JSX.Element,
+  location?: ToastInterface["location"]
 }
 
 export { toastReducer }

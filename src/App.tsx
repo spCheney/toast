@@ -2,9 +2,11 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import useToast from './toast/useToast'
+import { useState } from 'react'
 
 function App() {
   const [Toast, open, updateLocation] = useToast()
+  const [popupText, setPopupText] = useState("app open test")
 
   return (
     <>
@@ -19,7 +21,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => open(<>app open test</>)}>
+        <button onClick={() => open(<>{popupText}</>)}>
           count is {0}
         </button>
         <p>
@@ -29,13 +31,14 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <input type="text" style={{ width: "100%", marginBottom: "10px" }} onChange={e => setPopupText(e.currentTarget.value)} />
       <div>
         <button onClick={() => updateLocation("TOP-LEFT")}>Top Left</button>
         <button onClick={() => updateLocation("BOTTOM-LEFT")}>Bottom Left</button>
       </div>
       <br/>
       <div>
-        <button onClick={() => open(<>app open test</>)}>Open Pop-up</button>
+        <button onClick={() => open(<>{popupText}</>)}>Open Pop-up</button>
       </div>
     </>
   )

@@ -10,7 +10,9 @@ function useStyles(status: ToastInterface["status"]) {
     if(status == "OPEN") {
       setToastStyles([styles.toast, styles.open])
     } else if(status == "INITIATE CLOSE") {
-      setToastStyles([styles.toast, styles.close])
+      setToastStyles([styles.toast, styles.open, styles.close])
+    } else if(status == "CLOSED") {
+      setToastStyles([styles.toast])
     }
   }, [status])
 
@@ -23,18 +25,30 @@ function updateStatus(status: ToastInterface["status"], dispatch: React.Dispatch
   const closeAnimationDuration = 0.3
   const openAnimationDuration = 0.1
 
+  const [currentTimeout, setCurrentTimeout] = useState<undefined | number>()
+
   useEffect(() => {
     if(status == "OPEN") {
       delayDispatch("close", timeToastIsOpenFor)
     } else if(status == "INITIATE CLOSE") {
       delayDispatch("close complete", closeAnimationDuration)
+    } else if(status == "CLOSED") {
+      clearTimeout(currentTimeout)
+      setCurrentTimeout(undefined)
     }
   }, [status])
 
   function delayDispatch(type: ActionType["type"], seconds: number) {
-    setTimeout(() => {
+    if(currentTimeout != undefined) {
+      clearTimeout(currentTimeout)
+    }
+
+    const timeout = setTimeout(() => {
       dispatch({ type: type })
+      setCurrentTimeout(undefined)
     }, seconds * 1000)
+
+    setCurrentTimeout(timeout)
   }
 }
 
