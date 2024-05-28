@@ -1,6 +1,6 @@
-import { ContentType, LocationType, ToastInterface } from "./Values";
+import { ActionInterface, ToastInterface } from "./Types";
 
-function toastReducer(values: ToastInterface, action: ActionType): ToastInterface {
+function toastReducer(values: ToastInterface, action: ActionInterface): ToastInterface {
   switch (action.type) {
     case "open": {
       return {
@@ -34,11 +34,4 @@ function toastReducer(values: ToastInterface, action: ActionType): ToastInterfac
   }
 }
 
-interface ActionType {
-  type: "open" | "close" | "close complete" | "update location",
-  content?: ContentType,
-  location?: LocationType
-}
-
 export { toastReducer }
-export type { ActionType }

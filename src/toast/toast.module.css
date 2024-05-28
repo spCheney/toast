@@ -67,7 +67,7 @@
 .open {
   animation: linear forwards alternate;
   animation-name: open;
-  animation-duration: 0.3s;
+  animation-duration: var(--open-animation-duration);
 }
 
 @keyframes open {
@@ -84,7 +84,7 @@
 .openRight {
   animation: linear forwards alternate;
   animation-name: openRight;
-  animation-duration: 0.3s;
+  animation-duration: var(--open-animation-duration);
 }
 
 @keyframes openRight {
@@ -101,7 +101,7 @@
 .openTop {
   animation: linear forwards alternate;
   animation-name: openCenter;
-  animation-duration: 0.3s;
+  animation-duration: var(--open-animation-duration);
 }
 
 @keyframes openCenter {
@@ -118,7 +118,7 @@
 .openBottom {
   animation: linear forwards alternate;
   animation-name: openBottom;
-  animation-duration: 0.3s;
+  animation-duration: var(--open-animation-duration);
 }
 
 @keyframes openBottom {
@@ -135,7 +135,7 @@
 .close {
   animation: linear forwards alternate;
   animation-name: close;
-  animation-duration: 0.3s;
+  animation-duration: var(--close-animation-duration);
 }
 
 @keyframes close {

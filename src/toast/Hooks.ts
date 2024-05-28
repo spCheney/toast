@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react"
-import { StatusType } from "./Values"
-import { ActionType } from "./reducer"
+import { ActionInterface, ActionType, LocationType, StatusType } from "./Types"
 
-function updateStatus(status: StatusType, dispatch: React.Dispatch<ActionType>) {
-  //all in seconds
-  const timeToastIsOpenFor = 20
-  const closeAnimationDuration = 0.3
-  const openAnimationDuration = 0.1
+function updateStatus(status: StatusType, location: LocationType, dispatch: React.Dispatch<ActionInterface>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
   const [currentTimeout, setCurrentTimeout] = useState<undefined | number>()
 
   useEffect(() => {
     if(status == "OPEN") {
-      delayDispatch("close", timeToastIsOpenFor)
+      delayDispatch("close", timeToastIsOpenFor + openAnimationDuration)
     } else if(status == "INITIATE CLOSE") {
       delayDispatch("close complete", closeAnimationDuration)
     } else if(status == "CLOSED") {
@@ -21,7 +16,19 @@ function updateStatus(status: StatusType, dispatch: React.Dispatch<ActionType>) 
     }
   }, [status])
 
-  function delayDispatch(type: ActionType["type"], seconds: number) {
+  useEffect(() => {
+    if(currentTimeout != undefined) {
+      clearTimeout(currentTimeout)
+    }
+
+    if(status == "INITIATE CLOSE") {
+      dispatch({ type: "open" })
+    } else if(status == "OPEN") {
+      delayDispatch("close", timeToastIsOpenFor)
+    }
+  }, [location])
+
+  function delayDispatch(type: ActionType, seconds: number) {
     if(currentTimeout != undefined) {
       clearTimeout(currentTimeout)
     }

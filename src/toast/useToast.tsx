@@ -1,14 +1,25 @@
 import { useReducer } from "react";
 import Toast from "./Toast";
 import { toastReducer } from "./reducer";
-import { ContentType, DefaultValues, LocationType } from "./Values";
+import { ContentType, LocationType, ToastInterface } from "./Types";
 import { updateStatus } from "./Hooks";
 
 export default function useToast(): [() => JSX.Element, (content: ContentType) => void, (location: LocationType) => void] {
 
+  //all in seconds
+  const timeToastIsOpenFor = 20
+  const closeAnimationDuration = 0.3
+  const openAnimationDuration = 0.1
+
+  const DefaultValues: ToastInterface = {
+    content: <></>,
+    status: "CLOSED",
+    location: "TOP-LEFT"
+  }
+
   const [toastValues, dispatch] = useReducer(toastReducer, DefaultValues)
 
-  updateStatus(toastValues.status, dispatch)
+  updateStatus(toastValues.status, toastValues.location, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration)
 
   function open(content: ContentType) {
     dispatch({ type: "open", content: content })
@@ -22,5 +33,5 @@ export default function useToast(): [() => JSX.Element, (content: ContentType) =
     dispatch({ type: "update location", location: location })
   }
 
-  return [ () => <Toast status={toastValues.status} content={toastValues.content} location={toastValues.location} close={close} />, open, updateLocation ]
+  return [ () => <Toast status={toastValues.status} content={toastValues.content} location={toastValues.location} close={close} openAnimationDuration={openAnimationDuration} closeAnimationDuration={closeAnimationDuration} />, open, updateLocation ]
 }

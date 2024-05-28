@@ -31,7 +31,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <input type="text" style={{ width: "100%", marginBottom: "10px" }} onChange={e => setPopupText(e.currentTarget.value)} />
+      <input type="text" style={{ width: "100%", marginBottom: "10px" }} onChange={e => setPopupText(e.currentTarget.value)}  placeholder={popupText}/>
       <div>
         <button onClick={() => updateLocation("TOP-LEFT")}>Top Left</button>
         <button onClick={() => updateLocation("BOTTOM-LEFT")}>Bottom Left</button>
