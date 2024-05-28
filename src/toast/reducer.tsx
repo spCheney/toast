@@ -1,4 +1,4 @@
-import { ToastInterface } from "./Values";
+import { ContentType, LocationType, ToastInterface } from "./Values";
 
 function toastReducer(values: ToastInterface, action: ActionType): ToastInterface {
   switch (action.type) {
@@ -36,8 +36,8 @@ function toastReducer(values: ToastInterface, action: ActionType): ToastInterfac
 
 interface ActionType {
   type: "open" | "close" | "close complete" | "update location",
-  content?: JSX.Element,
-  location?: ToastInterface["location"]
+  content?: ContentType,
+  location?: LocationType
 }
 
 export { toastReducer }

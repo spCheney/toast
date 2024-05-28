@@ -35,6 +35,8 @@ function App() {
       <div>
         <button onClick={() => updateLocation("TOP-LEFT")}>Top Left</button>
         <button onClick={() => updateLocation("BOTTOM-LEFT")}>Bottom Left</button>
+        <button onClick={() => updateLocation("TOP-RIGHT")}>Top Right</button>
+        <button onClick={() => updateLocation("BOTTOM-RIGHT")}>Bottom Right</button>
       </div>
       <br/>
       <div>

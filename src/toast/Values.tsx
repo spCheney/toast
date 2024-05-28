@@ -1,18 +1,18 @@
-var ToastValues: ToastInterface = {
+var DefaultValues: ToastInterface = {
   content: <></>,
   status: "CLOSED",
   location: "TOP-LEFT"
 }
 
 interface ToastInterface {
-  content: JSX.Element,
-  status: "CLOSED" | "OPEN" | "INITIATE CLOSE",
-  location: "TOP-LEFT" | "BOTTOM-LEFT"
+  content: ContentType,
+  status: StatusType,
+  location: LocationType
 }
 
-var LocationValue: LocationType = "TOP-LEFT"
+type LocationType = "TOP-LEFT" | "BOTTOM-LEFT" | "TOP-RIGHT" | "BOTTOM-RIGHT"
+type ContentType = JSX.Element
+type StatusType = "CLOSED" | "OPEN" | "INITIATE CLOSE"
 
-type LocationType = "TOP-LEFT" | "BOTTOM-LEFT"
-
-export { ToastValues, LocationValue }
-export type { ToastInterface, LocationType }
+export { DefaultValues }
+export type { ToastInterface, LocationType, ContentType, StatusType }

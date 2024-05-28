@@ -1,16 +1,16 @@
 import { useReducer } from "react";
 import Toast from "./Toast";
 import { toastReducer } from "./reducer";
-import { LocationType, ToastInterface, ToastValues } from "./Values";
+import { ContentType, DefaultValues, LocationType } from "./Values";
 import { updateStatus } from "./Hooks";
 
-export default function useToast(): [() => JSX.Element, (content: JSX.Element) => void, (location: LocationType) => void] {
+export default function useToast(): [() => JSX.Element, (content: ContentType) => void, (location: LocationType) => void] {
 
-  const [toastValues, dispatch] = useReducer(toastReducer, ToastValues)
+  const [toastValues, dispatch] = useReducer(toastReducer, DefaultValues)
 
   updateStatus(toastValues.status, dispatch)
 
-  function open(content: JSX.Element) {
+  function open(content: ContentType) {
     dispatch({ type: "open", content: content })
   }
 
@@ -18,7 +18,7 @@ export default function useToast(): [() => JSX.Element, (content: JSX.Element) =
     dispatch({ type: "close" })
   }
 
-  function updateLocation(location: ToastInterface["location"]) {
+  function updateLocation(location: LocationType) {
     dispatch({ type: "update location", location: location })
   }
 

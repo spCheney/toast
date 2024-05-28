@@ -1,16 +1,28 @@
 .wrapper {
-  position: absolute;
+  position: fixed;
   z-index: 1000;
+  --margin: 20px;
+  --offset: 15px;
 }
 
 .topLeft {
-  top: 20px;
-  left: 20px;
+  top: var(--margin);
+  left: calc(var(--margin) + var(--offset));
 }
 
 .bottomLeft {
-  bottom: 20px;
-  left: 20px;
+  bottom: calc(var(--margin) + var(--offset));
+  left: calc(var(--margin) + var(--offset));
+}
+
+.topRight {
+  top: var(--margin);
+  right: calc(var(--margin) + var(--offset));
+}
+
+.bottomRight {
+  bottom: calc(var(--margin) + var(--offset));
+  right: calc(var(--margin) + var(--offset));
 }
 
 .toast {
@@ -21,9 +33,8 @@
   box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
   margin-top: 16px;
   display: flex;
-  position: relative;
   cursor: default;
-  /* left: 0px; */
+  overflow: hidden;
 }
 
 .text {
@@ -53,8 +64,25 @@
     transform: translateX(-100%)
   }
   100% {
-    left: 20px;
+    left: var(--margin);
     transform: translateX(0%)
+  }
+}
+
+.openRight {
+  animation: linear forwards alternate;
+  animation-name: openRight;
+  animation-duration: 0.3s;
+}
+
+@keyframes openRight {
+  0% {
+    right: 0px;
+    transform: translateX(100%);
+  }
+  100% {
+    right: var(--margin);
+    transform: translateX(0%);
   }
 }
 
@@ -62,7 +90,14 @@
   animation: linear forwards alternate;
   animation-name: close;
   animation-duration: 0.3s;
-  left: 20px;
+  left: var(--margin);
+}
+
+.closeRight {
+  animation: linear forwards alternate;
+  animation-name: close;
+  animation-duration: 0.3s;
+  right: var(--margin);
 }
 
 @keyframes close {
