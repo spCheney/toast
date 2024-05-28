@@ -37,6 +37,8 @@ function App() {
         <button onClick={() => updateLocation("BOTTOM-LEFT")}>Bottom Left</button>
         <button onClick={() => updateLocation("TOP-RIGHT")}>Top Right</button>
         <button onClick={() => updateLocation("BOTTOM-RIGHT")}>Bottom Right</button>
+        <button onClick={() => updateLocation("TOP-CENTER")}>Top Center</button>
+        <button onClick={() => updateLocation("BOTTOM-CENTER")}>Bottom Center</button>
       </div>
       <br/>
       <div>

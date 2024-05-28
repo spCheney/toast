@@ -25,6 +25,18 @@
   right: calc(var(--margin) + var(--offset));
 }
 
+.topCenter {
+  top: var(--margin);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bottomCenter {
+  bottom: calc(var(--margin) + var(--offset));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .toast {
   border: 2px solid transparent;
   background-color: #fafafa;
@@ -86,18 +98,44 @@
   }
 }
 
+.openTop {
+  animation: linear forwards alternate;
+  animation-name: openCenter;
+  animation-duration: 0.3s;
+}
+
+@keyframes openCenter {
+  0% {
+    top: 0px;
+    transform: translateY(-100%);
+  }
+  100% {
+    top: var(--margin);
+    transform: translateY(0%);
+  }
+}
+
+.openBottom {
+  animation: linear forwards alternate;
+  animation-name: openBottom;
+  animation-duration: 0.3s;
+}
+
+@keyframes openBottom {
+  0% {
+    bottom: 0px;
+    transform: translateY(100%);
+  }
+  100% {
+    bottom: var(--margin);
+    transform: translateY(0%);
+  }
+}
+
 .close {
   animation: linear forwards alternate;
   animation-name: close;
   animation-duration: 0.3s;
-  left: var(--margin);
-}
-
-.closeRight {
-  animation: linear forwards alternate;
-  animation-name: close;
-  animation-duration: 0.3s;
-  right: var(--margin);
 }
 
 @keyframes close {

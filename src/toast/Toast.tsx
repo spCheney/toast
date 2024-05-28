@@ -1,14 +1,7 @@
 import styles from "./toast.module.css"
 import { ContentType, LocationType, StatusType } from "./Values"
 
-type Props = {
-  status: StatusType,
-  content: ContentType,
-  location: LocationType,
-  close: () => void,
-}
-
-export default function Toast({status, content, location, close}: Props) {
+export default function Toast({ status, content, location, close }: { status: StatusType, content: ContentType, location: LocationType, close: () => void }) {
 
   const locationStyle = getLocation(location)
   const toastStyles = getStyle(status, location)
@@ -23,6 +16,10 @@ export default function Toast({status, content, location, close}: Props) {
       return styles.topRight
     } else if(location == "BOTTOM-RIGHT") {
       return styles.bottomRight
+    } else if(location == "TOP-CENTER") {
+      return styles.topCenter
+    } else if(location == "BOTTOM-CENTER") {
+      return styles.bottomCenter
     }
   }
 
@@ -30,7 +27,7 @@ export default function Toast({status, content, location, close}: Props) {
     if(status == "OPEN") {
       return [styles.toast, getOpenAnimation(location)]
     } else if(status == "INITIATE CLOSE") {
-      return [styles.toast, getOpenAnimation(location), getCloseAnimation(location)]
+      return [styles.toast, getOpenAnimation(location), styles.close]
     } else {
       return [styles.toast]
     }
@@ -39,16 +36,12 @@ export default function Toast({status, content, location, close}: Props) {
   function getOpenAnimation(location: LocationType) {
     if(location == "TOP-LEFT" || location == "BOTTOM-LEFT") {
       return styles.open
-    } else {
+    } else if(location == "TOP-RIGHT" || location == "BOTTOM-RIGHT") {
       return styles.openRight
-    }
-  }
-
-  function getCloseAnimation(location: LocationType) {
-    if(location == "TOP-LEFT" || location == "BOTTOM-LEFT") {
-      return styles.close
+    } else if(location == "TOP-CENTER") {
+      return styles.openTop
     } else {
-      return styles.closeRight
+      return styles.openBottom
     }
   }
 

@@ -10,7 +10,7 @@ interface ToastInterface {
   location: LocationType
 }
 
-type LocationType = "TOP-LEFT" | "BOTTOM-LEFT" | "TOP-RIGHT" | "BOTTOM-RIGHT"
+type LocationType = "TOP-LEFT" | "BOTTOM-LEFT" | "TOP-RIGHT" | "BOTTOM-RIGHT" | "TOP-CENTER" | "BOTTOM-CENTER"
 type ContentType = JSX.Element
 type StatusType = "CLOSED" | "OPEN" | "INITIATE CLOSE"
 
