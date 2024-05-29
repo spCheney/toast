@@ -5,17 +5,17 @@ import useToast from './toast/useToast'
 import { useState } from 'react'
 
 function App() {
-  const [Toast, open, updateLocation] = useToast()
+  const [Toast, open, Location] = useToast()
   const [popupText, setPopupText] = useState("app open test")
 
   return (
     <>
       <Toast/>
       <div>
-        <button onClick={() => updateLocation("TOP-LEFT")}>
+        <button onClick={() => Location.update(Location.topLeft)}>
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </button>
-        <button onClick={() => updateLocation("BOTTOM-LEFT")}>
+        <button onClick={() => Location.update(Location.bottomLeft)}>
           <img src={reactLogo} className="logo react" alt="React logo" />
         </button>
       </div>
@@ -33,12 +33,12 @@ function App() {
       </p>
       <input type="text" style={{ width: "100%", marginBottom: "10px" }} onChange={e => setPopupText(e.currentTarget.value)}  placeholder={popupText}/>
       <div>
-        <button onClick={() => updateLocation("TOP-LEFT")}>Top Left</button>
-        <button onClick={() => updateLocation("BOTTOM-LEFT")}>Bottom Left</button>
-        <button onClick={() => updateLocation("TOP-RIGHT")}>Top Right</button>
-        <button onClick={() => updateLocation("BOTTOM-RIGHT")}>Bottom Right</button>
-        <button onClick={() => updateLocation("TOP-CENTER")}>Top Center</button>
-        <button onClick={() => updateLocation("BOTTOM-CENTER")}>Bottom Center</button>
+        <button onClick={() => Location.update(Location.topLeft)}>Top Left</button>
+        <button onClick={() => Location.update(Location.bottomLeft)}>Bottom Left</button>
+        <button onClick={() => Location.update(Location.topRight)}>Top Right</button>
+        <button onClick={() => Location.update(Location.bottomRight)}>Bottom Right</button>
+        <button onClick={() => Location.update(Location.topCenter)}>Top Center</button>
+        <button onClick={() => Location.update(Location.bottomCenter)}>Bottom Center</button>
       </div>
       <br/>
       <div>
