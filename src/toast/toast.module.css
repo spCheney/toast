@@ -1,8 +1,12 @@
-.wrapper {
+.container {
   position: fixed;
   z-index: 1000;
   --margin: 20px;
   --offset: 15px;
+  /* color: ;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-style:oblique
+  font-size: 50px; */
 }
 
 .topLeft {
@@ -52,16 +56,18 @@
 .text {
   padding: 16px 24px;
   line-height: 1.4;
-  color: black;
 }
 
 .closeBtn {
   border: none;
   background-color: transparent;
   font-size: 16px;
-  margin-top: 8px;
   margin-right: 8px;
   cursor: pointer;
+  color: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  font-size: inherit;
 }
 
 .open {

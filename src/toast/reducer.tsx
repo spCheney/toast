@@ -28,6 +28,14 @@ function toastReducer(values: ToastInterface, action: ActionInterface): ToastInt
         location: action.location!
       }
     }
+    case "update animation durations": {
+      return {
+        ...values,
+        timeToastIsOpenFor: action.timeToastIsOpenFor!,
+        openAnimationDuration: action.openAnimationDuration!,
+        closeAnimationDuration: action.closeAnimationDuration!
+      }
+    }
     default: {
       return values
     }
