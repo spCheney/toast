@@ -1,9 +1,19 @@
-import { getLocation, getStyles, getAnimationVariables } from "./AnimationFunctions"
-import Toast from "./Toast"
-import { iStyle, StatusType, ContentType, LocationType } from "./Types"
+import { getLocation, getStyles, getAnimationVariables } from "./StyleFunctions"
+import { Toast } from "./Toast"
+import { iStyle, StatusType, ContentType, ToastLocation } from "./Types"
 import styles from "./toast.module.css"
 
-export default function Container(
+/**
+ * The container for the toast that will set it's location and styling
+ * @param style see {@link iStyle}
+ * @param status whether the toast is open or not
+ * @param content what will be displayed in the toast popup
+ * @param location see {@link ToastLocation}
+ * @param openAnimationDuration how long it takes the toast to open
+ * @param closeAnimationDuration how long it takes the toast to close
+ * @param close used to close the toast
+ */
+export function Container(
   {
     style,
     status,
@@ -11,14 +21,21 @@ export default function Container(
     location,
     openAnimationDuration,
     closeAnimationDuration,
-    close
+    close,
   } : {
+    /** see {@link iStyle} */
     style: iStyle,
+    /** whether the toast is open or not */
     status: StatusType,
+    /** what will be displayed in the toast popup */
     content: ContentType,
-    location: LocationType,
+    /** see {@link ToastLocation} */
+    location: ToastLocation,
+    /** how long it takes the toast to open */
     openAnimationDuration: number,
+    /** how long it takes the toast to close */
     closeAnimationDuration: number,
+    /** used to close the toast */
     close: () => void
   }
 ) {

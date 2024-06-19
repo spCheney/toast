@@ -1,19 +1,45 @@
 import { useEffect, useState } from "react"
-import { ActionInterface, ActionType, ContentType, LocationInterface, LocationType, StatusType } from "./Types"
+import { Action, ActionTypes, ContentType, LocationInterface, StatusType, Timeout, ToastLocation, ToastValues } from "./Types"
 
-function updateStatus(status: StatusType, location: LocationType, dispatch: React.Dispatch<ActionInterface>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
+// function updateStatus(status: StatusType, location: ToastLocation, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
-  const [currentTimeout, setCurrentTimeout] = useState<number>()
+//   const [currentTimeout, setCurrentTimeout] = useState<number>()
+//   const delayDispatch = useDelayDispatchFunction(dispatch, currentTimeout, setCurrentTimeout)
+
+//   useEffect(() => {
+//     if(status == "OPEN") {
+//       delayDispatch(ActionTypes.close, timeToastIsOpenFor + openAnimationDuration)
+//     } else if(status == "INITIATE CLOSE") {
+//       delayDispatch(ActionTypes.closeComplete, closeAnimationDuration)
+//     } else if(status == "CLOSED") {
+//       clearTimeout(currentTimeout)
+//       setCurrentTimeout(undefined)
+//     }
+//   }, [status])
+
+//   useEffect(() => {
+//     if(currentTimeout != undefined) {
+//       clearTimeout(currentTimeout)
+//     }
+
+//     if(status == "INITIATE CLOSE") {
+//       dispatch({ type: ActionTypes.open })
+//     } else if(status == "OPEN") {
+//       delayDispatch(ActionTypes.close, timeToastIsOpenFor)
+//     }
+//   }, [location])
+// }
+
+function updateStatus(toasts: ToastValues[], location: ToastLocation, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
+
+  const [timeouts, setTimeouts] = useState<Timeout[]>([])
   const delayDispatch = useDelayDispatchFunction(dispatch, currentTimeout, setCurrentTimeout)
 
   useEffect(() => {
     if(status == "OPEN") {
-      delayDispatch("close", timeToastIsOpenFor + openAnimationDuration)
+      delayDispatch(ActionTypes.close,  timeToastIsOpenFor + openAnimationDuration)
     } else if(status == "INITIATE CLOSE") {
-      delayDispatch("close complete", closeAnimationDuration)
-    } else if(status == "CLOSED") {
-      clearTimeout(currentTimeout)
-      setCurrentTimeout(undefined)
+      delayDispatch(ActionTypes.closeComplete, closeAnimationDuration)
     }
   }, [status])
 
@@ -23,25 +49,25 @@ function updateStatus(status: StatusType, location: LocationType, dispatch: Reac
     }
 
     if(status == "INITIATE CLOSE") {
-      dispatch({ type: "open" })
+      dispatch({ type: ActionTypes.open })
     } else if(status == "OPEN") {
-      delayDispatch("close", timeToastIsOpenFor)
+      delayDispatch(ActionTypes.close, timeToastIsOpenFor)
     }
   }, [location])
 }
 
-function useDelayDispatchFunction(dispatch: React.Dispatch<ActionInterface>, currentTimeout: undefined | number, setCurrentTimeout: React.Dispatch<React.SetStateAction<number | undefined>>) {
+function useDelayDispatchFunction(dispatch: React.Dispatch<Action>, currentTimeout: undefined | number, setCurrentTimeout: React.Dispatch<React.SetStateAction<number | undefined>>) {
 
-  const [delayDispatchFunction, setDelayDispatchFunction] = useState<(type: ActionType, seconds: number) => void>( () => () => {} )
+  const [delayDispatchFunction, setDelayDispatchFunction] = useState<(type: ActionTypes, seconds: number) => void>( () => () => {} )
 
   useEffect(() => {
-    setDelayDispatchFunction(() => (type: ActionType, seconds: number) => {
+    setDelayDispatchFunction(() => (type: ActionTypes, id: string, seconds: number) => {
       if(currentTimeout != undefined) {
         clearTimeout(currentTimeout)
       }
 
       const timeout = setTimeout(() => {
-        dispatch({ type: type })
+        dispatch({ type: type, toastId: id })
         setCurrentTimeout(undefined)
       }, seconds * 1000)
 
@@ -52,48 +78,43 @@ function useDelayDispatchFunction(dispatch: React.Dispatch<ActionInterface>, cur
   return delayDispatchFunction
 }
 
-function useOpenFunction(dispatch: React.Dispatch<ActionInterface>) {
+function useOpenFunction(dispatch: React.Dispatch<Action>) {
 
   const [openFunction, setOpenFunction] = useState<(content: ContentType) => void>( () => () => {} )
 
   useEffect(() => {
     setOpenFunction(() => (content: ContentType) => {
-      dispatch({ type: "open", content: content })
+      dispatch({ type: ActionTypes.open, content: content })
     })
   }, [dispatch])
 
   return openFunction
 }
 
-function useCloseFunction(dispatch: React.Dispatch<ActionInterface>) {
+function useCloseFunction(dispatch: React.Dispatch<Action>) {
 
   const [closeFunction, setCloseFunction] = useState<() => {}>( () => () => {})
 
   useEffect(() => {
     setCloseFunction(() => () => {
-      dispatch({ type: "close" })
+      dispatch({ type: ActionTypes.close })
     })
   }, [dispatch])
 
   return closeFunction
 }
 
-function useLocation(dispatch: React.Dispatch<ActionInterface>) {
+function useLocation(dispatch: React.Dispatch<Action>) {
 
-  const [Location, setLocation] = useState<Readonly<LocationInterface>>({} as Readonly<LocationInterface>)
+  const [Location, setLocation] = useState<Readonly<LocationInterface>>({} as LocationInterface)
 
   useEffect(() => {
     setLocation({
-      bottomCenter: "BOTTOM-CENTER",
-      bottomLeft: "BOTTOM-LEFT",
-      bottomRight: "BOTTOM-RIGHT",
-      topCenter: "TOP-CENTER",
-      topLeft: "TOP-LEFT",
-      topRight: "TOP-RIGHT",
-      update(location: LocationType) {
-        dispatch({ type: "update location", location: location })
+      ...ToastLocation,
+      update(location: ToastLocation) {
+        dispatch({ type: ActionTypes.updateLocation, location: location })
       }
-    } as Readonly<LocationInterface>)
+    })
   }, [dispatch])
 
   return Location

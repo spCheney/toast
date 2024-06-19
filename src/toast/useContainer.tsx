@@ -1,68 +1,37 @@
-import Container from "./Container"
-import { DefaultStyle } from "./DefaultValues"
-import { ToastInterface, ActionInterface, iStyle } from "./Types"
+import { Container } from "./Container"
+import { DEFAULT_TOAST_VALUES } from "./DefaultValues"
+import { populateStyle, updateAnimationDurations } from "./StyleFunctions"
+import { ToastInterface, Action, iStyle, ActionTypes } from "./Types"
+import { toastReducer } from "./reducer"
 
-function populateStyle(style?: iStyle) {
-  if(style == undefined) {
-    style = DefaultStyle
-  }
-
-  if(style.color == undefined) {
-    style.color = DefaultStyle.color
-  }
-
-  if(style.fontFamily == undefined) {
-    style.fontFamily = DefaultStyle.fontFamily
-  }
-
-  if(style.fontSize == undefined) {
-    style.fontSize = DefaultStyle.fontSize
-  }
-
-  if(style.fontStyle == undefined) {
-    style.fontStyle = DefaultStyle.fontStyle
-  }
-
-  if(style.fontWeight == undefined) {
-    style.fontWeight = DefaultStyle.fontWeight
-  }
-
-  return style
-}
-
-export default function useContainer(toastValues: ToastInterface, dispatch: React.Dispatch<ActionInterface>) {
-
+/**
+ * @param toastValues see {@link ToastInterface}
+ * @param dispatch uses {@link toastReducer}
+ * @returns Container component with the provide/default values
+ */
+export function useContainer(toastValues: ToastInterface, dispatch: React.Dispatch<Action>) {
   return ({
     style,
-    timeToastIsOpenFor = toastValues.timeToastIsOpenFor,
-    openAnimationDuration = toastValues.openAnimationDuration,
-    closeAnimationDuration = toastValues.closeAnimationDuration
+    timeToastIsOpenFor = DEFAULT_TOAST_VALUES.timeToastIsOpenFor,
+    openAnimationDuration = DEFAULT_TOAST_VALUES.openAnimationDuration,
+    closeAnimationDuration = DEFAULT_TOAST_VALUES.closeAnimationDuration
   } : {
-    style?: iStyle,
+    style?: Partial<iStyle>,
     timeToastIsOpenFor?: number,
     openAnimationDuration?: number,
     closeAnimationDuration?: number
   }) => {
 
-    if(timeToastIsOpenFor != toastValues.timeToastIsOpenFor || openAnimationDuration !== toastValues.openAnimationDuration || closeAnimationDuration != toastValues.closeAnimationDuration) {
-      dispatch({
-        type: "update animation durations",
-        timeToastIsOpenFor: timeToastIsOpenFor,
-        openAnimationDuration: openAnimationDuration,
-        closeAnimationDuration: closeAnimationDuration
-      })
-    }
-
-    style = populateStyle(style)
+    updateAnimationDurations(timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, toastValues, dispatch)
 
     return <Container
-      style={ style }
+      style={ populateStyle(style) }
       status={ toastValues.status }
       content={ toastValues.content }
       location={ toastValues.location }
       openAnimationDuration={ openAnimationDuration }
       closeAnimationDuration={ closeAnimationDuration}
-      close={ () => dispatch({ type: "close" }) }
+      close={ () => dispatch({ type: ActionTypes.close }) }
     />
   }
 }

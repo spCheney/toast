@@ -15,7 +15,7 @@ function App() {
 
   return (
     <>
-      <Toast style={{ color: color, fontFamily: fontFamily, fontStyle: fontStyle }} />
+      <Toast style={{ color: color, fontFamily: fontFamily, fontStyle: fontStyle }}/>
       <div>
         <button onClick={() => Location.update(Location.topLeft)}>
           <img src={viteLogo} className="logo" alt="Vite logo" />

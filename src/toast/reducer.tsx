@@ -1,34 +1,38 @@
-import { ActionInterface, ToastInterface } from "./Types";
+import { Action, ActionTypes, ToastContainer, ToastInterface, ToastValues } from "./Types";
 
-function toastReducer(values: ToastInterface, action: ActionInterface): ToastInterface {
+/**
+ * updates the values for the toast
+ * @param values {@link ToastInterface}
+ * @param action {@link Action}
+ * @returns updated values
+ */
+export function toastReducer(values: ToastContainer, action: Action): ToastContainer {
   switch (action.type) {
-    case "open": {
+    case ActionTypes.open: {
       return {
         ...values,
-        content: action.content!,
-        status: "OPEN"
+        toasts: addNew(values.toasts, action.content!)
       }
     }
-    case "close": {
+    case ActionTypes.close: {
       return {
         ...values,
-        status: "INITIATE CLOSE"
+        toasts: update(values.toasts, action.toastId!, false)
       }
     }
-    case "close complete": {
+    case ActionTypes.remove: {
       return {
         ...values,
-        content: <></>,
-        status: "CLOSED"
+        toasts: remove(values.toasts, action.toastId!)
       }
     }
-    case "update location": {
+    case ActionTypes.updateLocation: {
       return {
         ...values,
         location: action.location!
       }
     }
-    case "update animation durations": {
+    case ActionTypes.updateAnimationDurations: {
       return {
         ...values,
         timeToastIsOpenFor: action.timeToastIsOpenFor!,
@@ -42,4 +46,23 @@ function toastReducer(values: ToastInterface, action: ActionInterface): ToastInt
   }
 }
 
-export { toastReducer }
+function addNew(toasts: ToastValues[], content: ToastValues["content"]) {
+  return [
+    ...toasts,
+    {
+      content: content,
+      open: true,
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2)
+    }
+  ]
+}
+
+function update(toasts: ToastValues[], id: string, open: boolean) {
+  const index = toasts.findIndex(toast => toast.id === id)
+  toasts[index].open = open
+  return toasts
+}
+
+function remove(toasts: ToastValues[], id: string) {
+  return toasts.filter(toast => toast.id !== id)
+}
