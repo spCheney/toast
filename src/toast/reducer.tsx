@@ -59,7 +59,10 @@ function addNew(toasts: ToastValues[], content: ToastValues["content"]) {
 
 function update(toasts: ToastValues[], id: string, open: boolean) {
   const index = toasts.findIndex(toast => toast.id === id)
-  toasts[index].open = open
+  if(index !== -1) {
+    toasts[index].open = open
+  }
+
   return toasts
 }
 

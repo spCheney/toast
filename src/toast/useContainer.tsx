@@ -1,7 +1,7 @@
 import { Container } from "./Container"
 import { DEFAULT_TOAST_VALUES } from "./DefaultValues"
 import { populateStyle, updateAnimationDurations } from "./StyleFunctions"
-import { ToastInterface, Action, iStyle, ActionTypes } from "./Types"
+import { ToastInterface, Action, iStyle, ActionTypes, ToastContainer } from "./Types"
 import { toastReducer } from "./reducer"
 
 /**
@@ -9,7 +9,7 @@ import { toastReducer } from "./reducer"
  * @param dispatch uses {@link toastReducer}
  * @returns Container component with the provide/default values
  */
-export function useContainer(toastValues: ToastInterface, dispatch: React.Dispatch<Action>) {
+export function useContainer(values: ToastContainer, dispatch: React.Dispatch<Action>) {
   return ({
     style,
     timeToastIsOpenFor = DEFAULT_TOAST_VALUES.timeToastIsOpenFor,
@@ -22,16 +22,15 @@ export function useContainer(toastValues: ToastInterface, dispatch: React.Dispat
     closeAnimationDuration?: number
   }) => {
 
-    updateAnimationDurations(timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, toastValues, dispatch)
+    updateAnimationDurations(timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, values, dispatch)
 
     return <Container
       style={ populateStyle(style) }
-      status={ toastValues.status }
-      content={ toastValues.content }
-      location={ toastValues.location }
+      toasts={ values.toasts }
+      location={ values.location }
       openAnimationDuration={ openAnimationDuration }
       closeAnimationDuration={ closeAnimationDuration}
-      close={ () => dispatch({ type: ActionTypes.close }) }
+      close={ (toastId: string) => dispatch({ type: ActionTypes.close, toastId: toastId }) }
     />
   }
 }

@@ -61,7 +61,8 @@ interface iStyle {
 
 export interface Timeout {
   toastId: string,
-  timeout: number
+  isToastOpen: boolean,
+  timeout: number,
 }
 
 type FontStyleType = "normal" | "italic" | "oblique"
