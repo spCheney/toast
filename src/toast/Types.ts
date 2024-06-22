@@ -21,7 +21,8 @@ export interface ToastContainer {
   location: ToastLocation,
   timeToastIsOpenFor: number,
   openAnimationDuration: number,
-  closeAnimationDuration: number
+  closeAnimationDuration: number,
+  multipleToasts: boolean
 }
 
 export interface ToastValues {

@@ -11,7 +11,7 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
     case ActionTypes.open: {
       return {
         ...values,
-        toasts: addNew(values.toasts, action.content!)
+        toasts: values.multipleToasts ? [ ...values.toasts, createNew(action.content!) ] : [ createNew(action.content!) ]
       }
     }
     case ActionTypes.close: {
@@ -46,15 +46,12 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
   }
 }
 
-function addNew(toasts: ToastValues[], content: ToastValues["content"]) {
-  return [
-    ...toasts,
-    {
-      content: content,
-      open: true,
-      id: Date.now().toString(36) + Math.random().toString(36).substring(2)
-    }
-  ]
+function createNew(content: ToastValues["content"]) {
+  return {
+    content: content,
+    open: true,
+    id: Date.now().toString(36) + Math.random().toString(36).substring(2)
+  }
 }
 
 function update(toasts: ToastValues[], id: string, open: boolean) {
