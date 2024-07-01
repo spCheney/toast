@@ -1,4 +1,4 @@
-import { Action, ActionTypes, ToastContainer, ToastInterface, ToastValues } from "./Types";
+import { Action, ActionTypes, ToastContainer, ToastValues } from "./Types";
 
 /**
  * updates the values for the toast
@@ -40,6 +40,12 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
         closeAnimationDuration: action.closeAnimationDuration!
       }
     }
+    case ActionTypes.setMultipleToasts: {{
+      return {
+        ...values,
+        multipleToasts: action.multipleToasts!
+      }
+    }}
     default: {
       return values
     }

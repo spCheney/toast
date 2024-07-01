@@ -1,12 +1,12 @@
 import { DEFAULT_STYLE } from "./DefaultValues"
 import styles from "./toast.module.css"
-import { ToastLocation, StatusType, Action, ActionTypes, ToastInterface, iStyle, ToastContainer } from "./Types"
+import { ToastLocation, Action, ActionTypes, Style, ToastContainer } from "./Types"
 
 /**
  * @param location see {@link ToastLocation}
  * @returns a css class used to position the popup in the selected location
  */
-function getLocation(location: ToastLocation) {
+export function getLocation(location: ToastLocation) {
   switch(location) {
     case ToastLocation.topLeft:
       return styles.topLeft
@@ -63,7 +63,7 @@ function getOpenAnimation(location: ToastLocation) {
  * @param closeAnimationDuration how long it takes for the toast to close
  * @returns an object with the css variables set to determine the duration of the animations
  */
-function getAnimationVariables(openAnimationDuration: number, closeAnimationDuration: number) {
+export function getAnimationVariables(openAnimationDuration: number, closeAnimationDuration: number) {
   return {
     "--open-animation-duration": openAnimationDuration + "s",
     "--close-animation-duration": closeAnimationDuration + "s"
@@ -73,7 +73,7 @@ function getAnimationVariables(openAnimationDuration: number, closeAnimationDura
 /**
  * populates the provide style with the defaults for any missing values
  */
-export function populateStyle(style?: Partial<iStyle>) : iStyle {
+export function populateStyle(style?: Partial<Style>) : Style {
   if(style == undefined) {
     return DEFAULT_STYLE
   }
@@ -90,7 +90,7 @@ export function populateStyle(style?: Partial<iStyle>) : iStyle {
 /**
  * uses dispatch to update toast values with the durations if the current values are different then the ones provided
  */
-export function updateAnimationDurations(timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number, values: ToastContainer, dispatch: React.Dispatch<Action>) {
+export function setAnimationDurations(timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number, values: ToastContainer, dispatch: React.Dispatch<Action>) {
   if(timeToastIsOpenFor != values.timeToastIsOpenFor || openAnimationDuration != values.openAnimationDuration || closeAnimationDuration != values.closeAnimationDuration) {
     dispatch({
       type: ActionTypes.updateAnimationDurations,
@@ -101,4 +101,14 @@ export function updateAnimationDurations(timeToastIsOpenFor: number, openAnimati
   }
 }
 
-export { getLocation, getAnimationVariables }
+/**
+ * uses dispatch to set the multipleToast with if the current values are different then the ones provided
+ */
+export function setMultipleToasts(multipleToasts: boolean, values: ToastContainer, dispatch: React.Dispatch<Action>) {
+  if(multipleToasts !== values.multipleToasts) {
+    dispatch({
+      type: ActionTypes.setMultipleToasts,
+      multipleToasts: multipleToasts
+    })
+  }
+}

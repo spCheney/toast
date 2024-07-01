@@ -55,7 +55,6 @@ export function useUpdateTimeout(setTimeouts: React.Dispatch<React.SetStateActio
           if(toast.open) {
             updated[index] = createTimeout(toast, () => dispatch({ type: ActionTypes.close, toastId: toast.id }), timeToastIsOpenFor + openAnimationDuration)
           } else {
-            console.log(removeTimeout)
             updated[index] = createTimeout(toast, () => removeTimeout(toast.id), closeAnimationDuration)
           }
 

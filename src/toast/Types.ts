@@ -1,23 +1,14 @@
-/**
- * the values of the toast that are updated through the reducer
- * @property content
- * @property status
- * @property location
- * @property timeToastIsOpenFor
- * @property openAnimationDuration
- * @property closeAnimationDuration
- */
-interface ToastInterface {
-  content: ContentType,
-  status: StatusType,
-  location: ToastLocation,
-  timeToastIsOpenFor: number,
-  openAnimationDuration: number,
-  closeAnimationDuration: number
-}
+import { updateStatus } from "./Hooks"
 
-export interface ToastContainer {
-  toasts: ToastValues[],
+/**
+ * used to set the styling of the container of the toasts
+ * @property location - where the toasts will be located on the screen
+ * @property timeToastIsOpenFor - how long the toast will be open until the toast automatically closes
+ * @property openAnimationDuration - how long the open animation will last
+ * @property closeAnimationDuration - how long the close animation will last
+ * @property multipleToasts - what happens in the open dispatch function (if true an additional toast will be added if not it will delete the existing toast before adding a new one)
+ */
+interface ContainerValues {
   location: ToastLocation,
   timeToastIsOpenFor: number,
   openAnimationDuration: number,
@@ -25,22 +16,37 @@ export interface ToastContainer {
   multipleToasts: boolean
 }
 
+/**
+ * all the information that is needed by the container
+ * extends the values in {@link ContainerValues} and an array of the toasts it will contain
+ */
+export interface ToastContainer extends ContainerValues {
+  toasts: ToastValues[],
+}
+
+/**
+ * used for each individual toast
+ * @property id - used to identifed each individual toast
+ * @property content - what will be displayed by the toast
+ * @property open - determines whether the open or close animation is used
+ */
 export interface ToastValues {
   id: string,
-  content: ContentType,
+  content: Content,
   open: boolean
 }
 
 /**
  * contains the type of action for the reducer and optional values to be updated
  */
-interface Action extends Partial<ToastInterface> {
+export interface Action extends Partial<ContainerValues> {
   type: ActionTypes,
-  toastId?: string,
+  content?: Content,
+  toastId?: string
 }
 
 /** adds an update function to the {@link ToastLocation} enum */
-interface LocationInterface extends Record<keyof typeof ToastLocation, ToastLocation> {
+export interface LocationInterface extends Record<keyof typeof ToastLocation, ToastLocation> {
   update: (location: ToastLocation) => void
 }
 
@@ -52,7 +58,7 @@ interface LocationInterface extends Record<keyof typeof ToastLocation, ToastLoca
  * @property fontSize
  * @property fontWeight
  */
-interface iStyle {
+export interface Style {
   color: string,
   fontFamily: string,
   fontStyle: string,
@@ -60,15 +66,17 @@ interface iStyle {
   fontWeight: string | number
 }
 
+/**
+ * used by the {@link updateStatus} hook to control the timeouts for the animations and then automically remove the toast
+ */
 export interface Timeout {
   toastId: string,
   isToastOpen: boolean,
   timeout: number,
 }
 
-type FontStyleType = "normal" | "italic" | "oblique"
-type ContentType = JSX.Element
-type StatusType = "CLOSED" | "OPEN" | "INITIATE CLOSE"
+/** used for the content of each toast */
+export type Content = JSX.Element
 
 /**
  * where the popup will be located on the screen
@@ -79,7 +87,7 @@ type StatusType = "CLOSED" | "OPEN" | "INITIATE CLOSE"
  * @property topLeft
  * @property topRight
  */
-  enum ToastLocation {
+  export enum ToastLocation {
   bottomCenter = "BOTTOM-CENTER",
   bottomLeft = "BOTTOM-LEFT",
   bottomRight = "BOTTOM-RIGHT",
@@ -96,13 +104,11 @@ type StatusType = "CLOSED" | "OPEN" | "INITIATE CLOSE"
  * @property updateLocation
  * @property updateAnimationDurations
  */
-const enum ActionTypes {
+export const enum ActionTypes {
   open = "open",
   close = "close",
   remove = "remove",
   updateLocation = "update location",
-  updateAnimationDurations = "update animation durations"
+  updateAnimationDurations = "update animation durations",
+  setMultipleToasts = "set multiple toasts"
 }
-
-export type { ToastInterface, ContentType, StatusType, Action, LocationInterface, iStyle, FontStyleType }
-export { ToastLocation, ActionTypes }

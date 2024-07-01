@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Action, ActionTypes, ContentType, LocationInterface, StatusType, Timeout, ToastLocation, ToastValues } from "./Types"
+import { Action, ActionTypes, Content, LocationInterface, Timeout, ToastLocation, ToastValues } from "./Types"
 import { useAddTimeout, useUpdateTimeout } from "./TimoutHooks"
 
 // function updateStatus(status: StatusType, location: ToastLocation, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
@@ -31,6 +31,28 @@ import { useAddTimeout, useUpdateTimeout } from "./TimoutHooks"
 //   }, [location])
 // }
 
+// function useDelayDispatchFunction(dispatch: React.Dispatch<Action>, currentTimeout: undefined | number, setCurrentTimeout: React.Dispatch<React.SetStateAction<number | undefined>>) {
+
+//   const [delayDispatchFunction, setDelayDispatchFunction] = useState<(type: ActionTypes, seconds: number) => void>( () => () => {} )
+
+//   useEffect(() => {
+//     setDelayDispatchFunction(() => (type: ActionTypes, id: string, seconds: number) => {
+//       if(currentTimeout != undefined) {
+//         clearTimeout(currentTimeout)
+//       }
+
+//       const timeout = setTimeout(() => {
+//         dispatch({ type: type, toastId: id })
+//         setCurrentTimeout(undefined)
+//       }, seconds * 1000)
+
+//       setCurrentTimeout(timeout)
+//     })
+//   }, [dispatch, currentTimeout, setCurrentTimeout])
+
+//   return delayDispatchFunction
+// }
+
 function updateStatus(toasts: ToastValues[], location: ToastLocation, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
   const [timeouts, setTimeouts] = useState<Timeout[]>([])
@@ -42,41 +64,19 @@ function updateStatus(toasts: ToastValues[], location: ToastLocation, dispatch: 
       const timeoutIndex = timeouts.findIndex(timeout => timeout.toastId === toast.id)
       if(timeoutIndex === -1) {
         addTimeout(toast)
-      } else if(timeouts[timeoutIndex].isToastOpen && !toast.open) {
+      } else if(timeouts[timeoutIndex].isToastOpen !== toast.open) {
         updateTimeout(timeoutIndex, toast)
       }
     }
   }, [JSON.stringify(toasts)])
 }
 
-function useDelayDispatchFunction(dispatch: React.Dispatch<Action>, currentTimeout: undefined | number, setCurrentTimeout: React.Dispatch<React.SetStateAction<number | undefined>>) {
-
-  const [delayDispatchFunction, setDelayDispatchFunction] = useState<(type: ActionTypes, seconds: number) => void>( () => () => {} )
-
-  useEffect(() => {
-    setDelayDispatchFunction(() => (type: ActionTypes, id: string, seconds: number) => {
-      if(currentTimeout != undefined) {
-        clearTimeout(currentTimeout)
-      }
-
-      const timeout = setTimeout(() => {
-        dispatch({ type: type, toastId: id })
-        setCurrentTimeout(undefined)
-      }, seconds * 1000)
-
-      setCurrentTimeout(timeout)
-    })
-  }, [dispatch, currentTimeout, setCurrentTimeout])
-
-  return delayDispatchFunction
-}
-
 function useOpenFunction(dispatch: React.Dispatch<Action>) {
 
-  const [openFunction, setOpenFunction] = useState<(content: ContentType) => void>( () => () => {} )
+  const [openFunction, setOpenFunction] = useState<(content: Content) => void>( () => () => {} )
 
   useEffect(() => {
-    setOpenFunction(() => (content: ContentType) => {
+    setOpenFunction(() => (content: Content) => {
       dispatch({ type: ActionTypes.open, content: content })
     })
   }, [dispatch])

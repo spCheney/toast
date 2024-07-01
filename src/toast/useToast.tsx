@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { toastReducer } from "./reducer";
-import { ContentType, LocationInterface, iStyle } from "./Types";
+import { Content, LocationInterface, Style } from "./Types";
 import { updateStatus, useLocation, useOpenFunction } from "./Hooks";
 import { DEFAULT_TOAST_CONTAINER } from "./DefaultValues";
 import { useContainer } from "./useContainer";
@@ -12,12 +12,12 @@ export default function useToast(): [
     openAnimationDuration,
     closeAnimationDuration,
   } : {
-    style?: Partial<iStyle>,
+    style?: Partial<Style>,
     timeToastIsOpenFor?: number,
     openAnimationDuration?: number,
     closeAnimationDuration?: number,
   }) => JSX.Element,
-  (content: ContentType) => void,
+  (content: Content) => void,
   Readonly<LocationInterface>
 ] {
 

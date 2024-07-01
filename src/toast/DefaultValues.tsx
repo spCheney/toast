@@ -1,4 +1,4 @@
-import { ToastContainer, ToastInterface, ToastLocation, iStyle } from "./Types";
+import { ToastContainer, ToastLocation, Style } from "./Types";
 
 /**
  * color - black
@@ -11,7 +11,7 @@ import { ToastContainer, ToastInterface, ToastLocation, iStyle } from "./Types";
  *
  * fontWeight - 400
  */
-const DEFAULT_STYLE: iStyle = {
+export const DEFAULT_STYLE: Style = {
   color: "black",
   fontFamily: "default",
   fontStyle: "normal",
@@ -20,9 +20,7 @@ const DEFAULT_STYLE: iStyle = {
 }
 
 /**
- * content - <></>
- *
- * status - CLOSED
+ * toasts - []
  *
  * location - ToastLocation.topLeft
  *
@@ -31,16 +29,9 @@ const DEFAULT_STYLE: iStyle = {
  * closeAnimationDuration - 0.3
  *
  * openAnimationDuration - 0.1
+ *
+ * multipleToasts - false
  */
-const DEFAULT_TOAST_VALUES: ToastInterface = {
-  content: <></>,
-  status: "CLOSED",
-  location: ToastLocation.topLeft,
-  timeToastIsOpenFor: 20,
-  closeAnimationDuration: 0.3,
-  openAnimationDuration: 0.1
-}
-
 export const DEFAULT_TOAST_CONTAINER: ToastContainer = {
   toasts: [],
   location: ToastLocation.topLeft,
@@ -49,5 +40,3 @@ export const DEFAULT_TOAST_CONTAINER: ToastContainer = {
   openAnimationDuration: 0.1,
   multipleToasts: false
 }
-
-export { DEFAULT_STYLE, DEFAULT_TOAST_VALUES }

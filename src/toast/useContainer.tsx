@@ -1,7 +1,7 @@
 import { Container } from "./Container"
-import { DEFAULT_TOAST_VALUES } from "./DefaultValues"
-import { populateStyle, updateAnimationDurations } from "./StyleFunctions"
-import { ToastInterface, Action, iStyle, ActionTypes, ToastContainer } from "./Types"
+import { DEFAULT_TOAST_CONTAINER } from "./DefaultValues"
+import { populateStyle, setAnimationDurations, setMultipleToasts } from "./StyleFunctions"
+import { Action, Style, ActionTypes, ToastContainer } from "./Types"
 import { toastReducer } from "./reducer"
 
 /**
@@ -12,17 +12,20 @@ import { toastReducer } from "./reducer"
 export function useContainer(values: ToastContainer, dispatch: React.Dispatch<Action>) {
   return ({
     style,
-    timeToastIsOpenFor = DEFAULT_TOAST_VALUES.timeToastIsOpenFor,
-    openAnimationDuration = DEFAULT_TOAST_VALUES.openAnimationDuration,
-    closeAnimationDuration = DEFAULT_TOAST_VALUES.closeAnimationDuration
+    timeToastIsOpenFor = DEFAULT_TOAST_CONTAINER.timeToastIsOpenFor,
+    openAnimationDuration = DEFAULT_TOAST_CONTAINER.openAnimationDuration,
+    closeAnimationDuration = DEFAULT_TOAST_CONTAINER.closeAnimationDuration,
+    multipleToasts = DEFAULT_TOAST_CONTAINER.multipleToasts
   } : {
-    style?: Partial<iStyle>,
+    style?: Partial<Style>,
     timeToastIsOpenFor?: number,
     openAnimationDuration?: number,
-    closeAnimationDuration?: number
+    closeAnimationDuration?: number,
+    multipleToasts?: boolean
   }) => {
 
-    updateAnimationDurations(timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, values, dispatch)
+    setAnimationDurations(timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, values, dispatch)
+    setMultipleToasts(multipleToasts, values, dispatch)
 
     return <Container
       style={ populateStyle(style) }

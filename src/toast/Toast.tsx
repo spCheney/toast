@@ -1,5 +1,5 @@
 import styles from "./toast.module.css"
-import { ContentType } from "./Types"
+import { Content } from "./Types"
 
 /**
  * A simple popup that enters the screen similiar to toast popping out
@@ -12,7 +12,7 @@ export function Toast({
     close
   } : {
     className: string,
-    content: ContentType,
+    content: Content,
     close: () => void
   }): JSX.Element {
 
