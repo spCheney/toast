@@ -90,10 +90,10 @@ export function populateStyle(style?: Partial<Style>) : Style {
 /**
  * uses dispatch to update toast values with the durations if the current values are different then the ones provided
  */
-export function setAnimationDurations(timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number, values: ToastContainer, dispatch: React.Dispatch<Action>) {
+export function updateAnimationDurations(timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number, values: ToastContainer, dispatch: React.Dispatch<Action>) {
   if(timeToastIsOpenFor != values.timeToastIsOpenFor || openAnimationDuration != values.openAnimationDuration || closeAnimationDuration != values.closeAnimationDuration) {
     dispatch({
-      type: ActionTypes.updateAnimationDurations,
+      type: ActionTypes.setAnimationDurations,
       timeToastIsOpenFor: timeToastIsOpenFor,
       openAnimationDuration: openAnimationDuration,
       closeAnimationDuration: closeAnimationDuration
@@ -104,7 +104,7 @@ export function setAnimationDurations(timeToastIsOpenFor: number, openAnimationD
 /**
  * uses dispatch to set the multipleToast with if the current values are different then the ones provided
  */
-export function setMultipleToasts(multipleToasts: boolean, values: ToastContainer, dispatch: React.Dispatch<Action>) {
+export function updateMultipleToasts(multipleToasts: boolean, values: ToastContainer, dispatch: React.Dispatch<Action>) {
   if(multipleToasts !== values.multipleToasts) {
     dispatch({
       type: ActionTypes.setMultipleToasts,

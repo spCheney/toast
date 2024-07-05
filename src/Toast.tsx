@@ -1,3 +1,4 @@
+import React from "react"
 import styles from "./toast.module.css"
 import { Content } from "./Types"
 

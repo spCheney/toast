@@ -101,14 +101,15 @@ export type Content = JSX.Element
  * @property open
  * @property close
  * @property closeComplete
- * @property updateLocation
- * @property updateAnimationDurations
+ * @property setLocation
+ * @property setAnimationDurations
+ * @property setMultipleToasts
  */
 export const enum ActionTypes {
   open = "open",
   close = "close",
   remove = "remove",
-  updateLocation = "update location",
-  updateAnimationDurations = "update animation durations",
+  setLocation = "set location",
+  setAnimationDurations = "set animation durations",
   setMultipleToasts = "set multiple toasts"
 }

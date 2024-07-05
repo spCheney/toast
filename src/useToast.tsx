@@ -1,9 +1,9 @@
-import { useReducer } from "react";
 import { toastReducer } from "./reducer";
 import { Content, LocationInterface, Style } from "./Types";
 import { updateStatus, useLocation, useOpenFunction } from "./Hooks";
 import { DEFAULT_TOAST_CONTAINER } from "./DefaultValues";
 import { useContainer } from "./useContainer";
+import { useReducer, JSX } from "react";
 
 export default function useToast(): [
   ({
@@ -23,7 +23,7 @@ export default function useToast(): [
 
   const [values, dispatch] = useReducer(toastReducer, DEFAULT_TOAST_CONTAINER)
 
-  updateStatus(values.toasts, values.location, dispatch, values.timeToastIsOpenFor, values.openAnimationDuration, values.closeAnimationDuration)
+  updateStatus(values.toasts, dispatch, values.timeToastIsOpenFor, values.openAnimationDuration, values.closeAnimationDuration)
 
   const open = useOpenFunction(dispatch)
   const Location = useLocation(dispatch)

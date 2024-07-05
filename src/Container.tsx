@@ -1,6 +1,7 @@
+import React from "react"
 import { getLocation, getAnimationVariables, getCSSClasses } from "./StyleFunctions"
 import { Toast } from "./Toast"
-import { iStyle, ToastLocation, ToastValues } from "./Types"
+import { Style, ToastLocation, ToastValues } from "./Types"
 import styles from "./toast.module.css"
 
 /**
@@ -22,8 +23,8 @@ export function Container(
     closeAnimationDuration,
     close,
   } : {
-    /** see {@link iStyle} */
-    style: iStyle,
+    /** see {@link Style} */
+    style: Style,
     /** whether the toast is open or not */
     toasts: ToastValues[],
     /** see {@link ToastLocation} */

@@ -26,13 +26,13 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
         toasts: remove(values.toasts, action.toastId!)
       }
     }
-    case ActionTypes.updateLocation: {
+    case ActionTypes.setLocation: {
       return {
         ...values,
         location: action.location!
       }
     }
-    case ActionTypes.updateAnimationDurations: {
+    case ActionTypes.setAnimationDurations: {
       return {
         ...values,
         timeToastIsOpenFor: action.timeToastIsOpenFor!,
