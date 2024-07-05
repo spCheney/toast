@@ -1,6 +1,6 @@
 {
   "name": "toasty-react",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "this is a toast popup for use in react projects",
   "main": "dist/useToast.js",
   "files": [
@@ -17,7 +17,7 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "copy-css": "copyfiles -u 1 src/toast.module.css dist",
+    "copy-css": "copyfiles -u 1 src/*.css dist",
     "postbuild": "npm run copy-css",
     "preversion": "npm run build",
     "version": "npm publish"
