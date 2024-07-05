@@ -10,15 +10,20 @@ import { Content } from "./Types"
 export function Toast({
     className,
     content,
+    style,
     close
   } : {
     className: string,
     content: Content,
+    style: {
+      border: string,
+      backgroundColor: string
+    },
     close: () => void
   }): JSX.Element {
 
   return (
-    <div className={ className }>
+    <div className={ className } style={ style }>
       <span className={ styles.text }>
         { content }
       </span>

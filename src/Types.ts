@@ -1,3 +1,4 @@
+import React from "react"
 import { updateStatus } from "./Hooks"
 
 /**
@@ -58,12 +59,14 @@ export interface LocationInterface extends Record<keyof typeof ToastLocation, To
  * @property fontSize
  * @property fontWeight
  */
-export interface Style {
+export interface CssStyle {
   color: string,
   fontFamily: string,
   fontStyle: string,
   fontSize: string | number,
-  fontWeight: string | number
+  fontWeight: string | number,
+  border: string,
+  backgroundColor: string,
 }
 
 /**
@@ -76,7 +79,7 @@ export interface Timeout {
 }
 
 /** used for the content of each toast */
-export type Content = JSX.Element
+export type Content = React.JSX.Element
 
 /**
  * where the popup will be located on the screen

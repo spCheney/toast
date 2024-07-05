@@ -1,5 +1,5 @@
 import { toastReducer } from "./reducer";
-import { Content, LocationInterface, Style } from "./Types";
+import { Content, LocationInterface, CssStyle } from "./Types";
 import { updateStatus, useLocation, useOpenFunction } from "./Hooks";
 import { DEFAULT_TOAST_CONTAINER } from "./DefaultValues";
 import { useContainer } from "./useContainer";
@@ -12,7 +12,7 @@ export default function useToast(): [
     openAnimationDuration,
     closeAnimationDuration,
   } : {
-    style?: Partial<Style>,
+    style?: Partial<CssStyle>,
     timeToastIsOpenFor?: number,
     openAnimationDuration?: number,
     closeAnimationDuration?: number,

@@ -1,12 +1,12 @@
 import { DEFAULT_STYLE } from "./DefaultValues"
 import styles from "./toast.module.css"
-import { ToastLocation, Action, ActionTypes, Style, ToastContainer } from "./Types"
+import { ToastLocation, Action, ActionTypes, CssStyle, ToastContainer } from "./Types"
 
 /**
  * @param location see {@link ToastLocation}
  * @returns a css class used to position the popup in the selected location
  */
-export function getLocation(location: ToastLocation) {
+export function getLocationCSS(location: ToastLocation) {
   switch(location) {
     case ToastLocation.topLeft:
       return styles.topLeft
@@ -73,7 +73,7 @@ export function getAnimationVariables(openAnimationDuration: number, closeAnimat
 /**
  * populates the provide style with the defaults for any missing values
  */
-export function populateStyle(style?: Partial<Style>) : Style {
+export function populateStyle(style?: Partial<CssStyle>) : CssStyle {
   if(style == undefined) {
     return DEFAULT_STYLE
   }
@@ -83,7 +83,26 @@ export function populateStyle(style?: Partial<Style>) : Style {
     fontFamily: style.fontFamily == undefined ? DEFAULT_STYLE.fontFamily : style.fontFamily,
     fontSize: style.fontSize == undefined ? DEFAULT_STYLE.fontSize : style.fontSize,
     fontStyle: style.fontStyle == undefined ? DEFAULT_STYLE.fontStyle : style.fontStyle,
-    fontWeight: style.fontWeight == undefined ? DEFAULT_STYLE.fontWeight : style.fontWeight
+    fontWeight: style.fontWeight == undefined ? DEFAULT_STYLE.fontWeight : style.fontWeight,
+    border: style.border == undefined ? DEFAULT_STYLE.border : style.border,
+    backgroundColor: style.backgroundColor == undefined ? DEFAULT_STYLE.backgroundColor : style.backgroundColor
+  }
+}
+
+export function getContainerStyle(style: CssStyle) {
+  return {
+    color: style.color,
+    fontFamily: style.fontFamily,
+    fontSize: style.fontSize,
+    fontStyle: style.fontStyle,
+    fontWeight: style.fontWeight
+  }
+}
+
+export function getToastStyle(style: CssStyle) {
+  return {
+    border: style.border,
+    backgroundColor: style.backgroundColor
   }
 }
 

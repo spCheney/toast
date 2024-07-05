@@ -1,7 +1,7 @@
 import React from "react"
-import { getLocation, getAnimationVariables, getCSSClasses } from "./StyleFunctions"
+import { getLocationCSS, getAnimationVariables, getCSSClasses, getContainerStyle, getToastStyle } from "./StyleFunctions"
 import { Toast } from "./Toast"
-import { Style, ToastLocation, ToastValues } from "./Types"
+import { CssStyle, ToastLocation, ToastValues } from "./Types"
 import styles from "./toast.module.css"
 
 /**
@@ -24,7 +24,7 @@ export function Container(
     close,
   } : {
     /** see {@link Style} */
-    style: Style,
+    style: CssStyle,
     /** whether the toast is open or not */
     toasts: ToastValues[],
     /** see {@link ToastLocation} */
@@ -38,13 +38,10 @@ export function Container(
   }
 ) {
 
-  const locationClass = getLocation(location)
-  const animationVariables = getAnimationVariables(openAnimationDuration, closeAnimationDuration)
-
   return (
-    <div className={ [styles.container, locationClass].join(' ') } style={{ ...animationVariables, ...style }}>
+    <div className={ [styles.container, getLocationCSS(location)].join(' ') } style={{ ...getAnimationVariables(openAnimationDuration, closeAnimationDuration), ...getContainerStyle(style) }}>
       {toasts.map(toast =>
-        <Toast className={ getCSSClasses(toast.open, location) } content={ toast.content } close={ () => close(toast.id) } key={ toast.id }/>
+        <Toast className={ getCSSClasses(toast.open, location) } content={ toast.content } style={ getToastStyle(style) } close={ () => close(toast.id) } key={ toast.id }/>
       )}
     </div>
   )
