@@ -1,4 +1,4 @@
-import { Action, ActionTypes, ToastContainer, ToastValues } from "./Types";
+import { Action, ActionTypes, Content, ToastContainer, ToastLocation, ToastValues } from "./Types";
 
 /**
  * updates the values for the toast
@@ -9,50 +9,94 @@ import { Action, ActionTypes, ToastContainer, ToastValues } from "./Types";
 export function toastReducer(values: ToastContainer, action: Action): ToastContainer {
   switch (action.type) {
     case ActionTypes.open: {
-      return {
-        ...values,
-        toasts: values.multipleToasts ? [ ...values.toasts, createNew(action.content!) ] : [ createNew(action.content!) ]
+      if(action.content === undefined) {
+        console.warn("A toast won't be added without a content value")
+        return values
+      } else {
+        return {
+          ...values,
+          toasts: values.multipleToasts ? [ ...values.toasts, createNew(action.content) ] : [ createNew(action.content) ]
+        }
       }
     }
     case ActionTypes.close: {
-      return {
-        ...values,
-        toasts: update(values.toasts, action.toastId!, false)
+      if(action.toastId === undefined) {
+        console.warn("Toasts won't be changed or updated without toastId being provided")
+        return values
+      } else if(values.toasts.length === 0) {
+        console.warn("Toasts array is empty")
+        return values
+      } else if(!values.toasts.some(toast => toast.id === action.toastId)) {
+        console.warn("Toasts array doesn't contain \"" + action.toastId + "\" toast id")
+        return values
+      } else {
+        return {
+          ...values,
+          toasts: update(values.toasts, action.toastId, false)
+        }
       }
     }
     case ActionTypes.remove: {
-      return {
-        ...values,
-        toasts: remove(values.toasts, action.toastId!)
+      if(action.toastId === undefined) {
+        console.warn("Toasts won't be changed or updated without toastId being provided")
+        return values
+      } else if(values.toasts.length === 0) {
+        console.warn("Toasts array is empty")
+        return values
+      } else if(!values.toasts.some(toast => toast.id === action.toastId)) {
+        console.warn("Toasts array doesn't contain \"" + action.toastId + "\" toast id")
+        return values
+      } else {
+        return {
+          ...values,
+          toasts: remove(values.toasts, action.toastId!)
+        }
       }
     }
     case ActionTypes.setLocation: {
-      return {
-        ...values,
-        location: action.location!
+      if(action.location === undefined) {
+        console.warn("Location won't be changed or updated without new location being provided")
+        return values
+      } else if(!Object.values(ToastLocation).includes(action.location)) {
+        console.warn("The provide location is invalid. The existing value won't be updated")
+        return values
+      } else {
+        return {
+          ...values,
+          location: action.location!
+        }
       }
     }
     case ActionTypes.setAnimationDurations: {
+      const timeToastIsOpenFor = action.timeToastIsOpenFor === undefined ? values.timeToastIsOpenFor : action.timeToastIsOpenFor
+      const openAnimationDuration = action.openAnimationDuration === undefined ? values.openAnimationDuration : action.openAnimationDuration
+      const closeAnimationDuration = action.closeAnimationDuration === undefined ? values.closeAnimationDuration : action.closeAnimationDuration
+
       return {
         ...values,
-        timeToastIsOpenFor: action.timeToastIsOpenFor!,
-        openAnimationDuration: action.openAnimationDuration!,
-        closeAnimationDuration: action.closeAnimationDuration!
+        timeToastIsOpenFor: timeToastIsOpenFor,
+        openAnimationDuration: openAnimationDuration,
+        closeAnimationDuration: closeAnimationDuration
       }
     }
-    case ActionTypes.setMultipleToasts: {{
-      return {
-        ...values,
-        multipleToasts: action.multipleToasts!
+    case ActionTypes.setMultipleToasts: {
+      if(action.multipleToasts === undefined) {
+        console.warn("Multiple Toasts varriable won't be changed or updated without new value being provided")
+        return values
+      } else {
+        return {
+          ...values,
+          multipleToasts: action.multipleToasts
+        }
       }
-    }}
+    }
     default: {
       return values
     }
   }
 }
 
-function createNew(content: ToastValues["content"]) {
+function createNew(content: Content) {
   return {
     content: content,
     open: true,

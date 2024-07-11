@@ -103,7 +103,7 @@ export type Content = React.JSX.Element
  * the possible actions of the reducer
  * @property open
  * @property close
- * @property closeComplete
+ * @property remove
  * @property setLocation
  * @property setAnimationDurations
  * @property setMultipleToasts
