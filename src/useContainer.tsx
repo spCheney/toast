@@ -33,7 +33,7 @@ export function useContainer(values: ToastContainer, dispatch: React.Dispatch<Ac
       toasts={ values.toasts }
       location={ values.location }
       openAnimationDuration={ openAnimationDuration }
-      closeAnimationDuration={ closeAnimationDuration}
+      closeAnimationDuration={ closeAnimationDuration }
       close={ (toastId: string) => dispatch({ type: ActionTypes.close, toastId: toastId }) }
     />
   }

@@ -20,6 +20,9 @@ export function getLocationCSS(location: ToastLocation) {
       return styles.topCenter
     case ToastLocation.bottomCenter:
       return styles.bottomCenter
+    default:
+      console.warn("The provided value isn't a valid location. Top left will be used by default")
+      return styles.topLeft
   }
 }
 
@@ -46,7 +49,7 @@ function getOpenAnimation(location: ToastLocation) {
   switch(location) {
     case ToastLocation.topLeft:
     case ToastLocation.bottomLeft:
-      return styles.open
+      return styles.openLeft
     case ToastLocation.topRight:
     case ToastLocation.bottomRight:
       return styles.openRight
@@ -90,6 +93,8 @@ export function populateStyle(style?: Partial<CssStyle>) : CssStyle {
 }
 
 export function getContainerStyle(style: CssStyle) {
+  style = populateStyle(style)
+
   return {
     color: style.color,
     fontFamily: style.fontFamily,
@@ -100,6 +105,8 @@ export function getContainerStyle(style: CssStyle) {
 }
 
 export function getToastStyle(style: CssStyle) {
+  style = populateStyle(style)
+
   return {
     border: style.border,
     backgroundColor: style.backgroundColor

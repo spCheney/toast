@@ -64,13 +64,13 @@
   font-size: inherit;
 }
 
-.open {
+.openLeft {
   animation: linear forwards alternate;
-  animation-name: open;
+  animation-name: openLeft;
   animation-duration: var(--open-animation-duration);
 }
 
-@keyframes open {
+@keyframes openLeft {
   0% {
     left: 0px;
     transform: translateX(-100%)
