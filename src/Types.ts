@@ -75,7 +75,7 @@ export interface CssStyle {
 export interface Timeout {
   toastId: string,
   isToastOpen: boolean,
-  timeout: number,
+  timeout: NodeJS.Timeout,
 }
 
 /** used for the content of each toast */
