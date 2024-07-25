@@ -1,6 +1,6 @@
 {
   "name": "toasty-react",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "this is a toast popup for use in react projects",
   "main": "dist/useToast.js",
   "files": [
