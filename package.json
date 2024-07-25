@@ -22,7 +22,7 @@
     "prepublish-package": "npm run build",
     "publish-package": "npm publish",
     "upload": "npm version",
-    "postupload": "npm run publish"
+    "postupload": "npm run publish-package"
   },
   "repository": {
     "type": "git",
