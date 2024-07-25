@@ -19,8 +19,11 @@
     "build": "tsc",
     "copy-css": "copyfiles -u 1 src/*.css dist",
     "postbuild": "npm run copy-css",
-    "preversion": "npm run build",
-    "version": "npm publish"
+    "prepublish": "npm run build",
+    "publish": "npm publish",
+    "version-publish": "npm version",
+    "postversion-publish": "npm publish",
+    "vp": "npm run version-publish"
   },
   "repository": {
     "type": "git",
