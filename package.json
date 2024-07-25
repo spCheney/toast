@@ -1,6 +1,6 @@
 {
   "name": "toasty-react",
-  "version": "1.1.0",
+  "version": "1.0.9",
   "description": "this is a toast popup for use in react projects",
   "main": "dist/useToast.js",
   "files": [
@@ -21,9 +21,8 @@
     "postbuild": "npm run copy-css",
     "prepublish": "npm run build",
     "publish": "npm publish",
-    "version-publish": "npm version",
-    "postversion-publish": "npm publish",
-    "vp": "npm run version-publish"
+    "upload": "npm version",
+    "postupload": "npm run publish"
   },
   "repository": {
     "type": "git",
