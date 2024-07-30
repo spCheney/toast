@@ -1,9 +1,9 @@
 # Toasty-React
 
 
-<img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/quick-demo.gif" height="150" alt="quick zoomed in demo" />
-<img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/auto-close.gif" height="150" alt="auto-close demo" />
-<img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/css-style.gif" height="150" alt="you can set the css style" />
+<img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/quick-demo.gif" height="150" width="550" alt="quick zoomed in demo" />
+<img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/auto-close.gif" height="150" width="550" alt="auto-close demo" />
+<img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/css-style.gif" height="150" width="550" alt="you can set the css style" />
 
 
 <img src="https://raw.githubusercontent.com/spencercheney/toast/main/demos/location.gif" width="700" alt="demonstrates updating the location" />
