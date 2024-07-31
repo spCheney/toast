@@ -48,7 +48,11 @@ function useCloseFunction(dispatch: React.Dispatch<Action>) {
 
 function useLocation(dispatch: React.Dispatch<Action>) {
 
-  const [Location, setLocation] = useState<Readonly<LocationInterface>>({} as LocationInterface)
+  const defaultLocation = {
+    ...ToastLocation,
+    update() {}
+  }
+  const [Location, setLocation] = useState<Readonly<LocationInterface>>(defaultLocation)
 
   useEffect(() => {
     setLocation({
