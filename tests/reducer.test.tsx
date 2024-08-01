@@ -42,6 +42,14 @@ describe("creating toasts/open type", () => {
     var values = openToast(undefined, DEFAULT_TOAST_CONTAINER)
     expect(values.toasts.length).toEqual(0)
   })
+
+  test("stringify toasts", () => {
+    var content = <p>used for test</p>
+    const values = openToast(content, DEFAULT_TOAST_CONTAINER)
+    expect(values.toasts.length).toEqual(1)
+    expect(values.toasts[0].content).toEqual(<p>used for test</p>)
+    expect(JSON.stringify(values.toasts[0].content)).toEqual(JSON.stringify(content))
+  })
 })
 
 describe("close a toast/set open parameter to false", () => {

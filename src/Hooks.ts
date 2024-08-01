@@ -8,6 +8,7 @@ function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, t
   const addTimeout = useAddTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration)
   const updateTimeout = useUpdateTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration)
 
+  console.log(JSON.stringify(toasts))
   useEffect(() => {
     for(var toast of toasts) {
       const timeoutIndex = timeouts.findIndex(timeout => timeout.toastId === toast.id)
@@ -26,11 +27,7 @@ function useOpenFunction(dispatch: React.Dispatch<Action>) {
 
   useEffect(() => {
     setOpenFunction(() => (content: Content) => {
-      dispatch({ type: ActionTypes.open, content: {
-        key: content.key,
-        type: content.type,
-        props: content.props
-      }})
+      dispatch({ type: ActionTypes.open, content: content })
     })
   }, [dispatch])
 
