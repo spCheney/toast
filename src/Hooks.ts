@@ -8,7 +8,7 @@ function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, t
   const addTimeout = useAddTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration)
   const updateTimeout = useUpdateTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration)
 
-  console.log(JSON.stringify(toasts))
+  console.log(toasts)
   useEffect(() => {
     for(var toast of toasts) {
       const timeoutIndex = timeouts.findIndex(timeout => timeout.toastId === toast.id)
