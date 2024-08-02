@@ -27,6 +27,11 @@ function useOpenFunction(dispatch: React.Dispatch<Action>) {
 
   useEffect(() => {
     setOpenFunction(() => (content: Content) => {
+      content = {
+        key: content.key,
+        props: content.props,
+        type: content.type,
+      }
       dispatch({ type: ActionTypes.open, content: content })
     })
   }, [dispatch])
