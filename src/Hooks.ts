@@ -2,13 +2,12 @@ import { useEffect, useState } from "react"
 import { Action, ActionTypes, Content, LocationInterface, Timeout, ToastLocation, ToastValues } from "./Types"
 import { useAddTimeout, useUpdateTimeout } from "./TimoutHooks"
 
-function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
+export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
   const [timeouts, setTimeouts] = useState<Timeout[]>([])
   const addTimeout = useAddTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration)
   const updateTimeout = useUpdateTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration)
 
-  console.log(toasts)
   useEffect(() => {
     for(var toast of toasts) {
       const timeoutIndex = timeouts.findIndex(timeout => timeout.toastId === toast.id)
@@ -18,20 +17,21 @@ function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, t
         updateTimeout(timeoutIndex, toast)
       }
     }
-  }, [JSON.stringify(toasts)])
+  }, [toastsToString])
 }
 
-function useOpenFunction(dispatch: React.Dispatch<Action>) {
+function toastsToString(toasts: ToastValues[]) {
+  const removedContent = toasts.map(toast => {toast.id, toast.open})
+  console.log(removedContent)
+  return JSON.stringify(removedContent)
+}
+
+export function useOpenFunction(dispatch: React.Dispatch<Action>) {
 
   const [openFunction, setOpenFunction] = useState<(content: Content) => void>( () => () => {} )
 
   useEffect(() => {
     setOpenFunction(() => (content: Content) => {
-      content = {
-        key: content.key,
-        props: content.props,
-        type: content.type,
-      }
       dispatch({ type: ActionTypes.open, content: content })
     })
   }, [dispatch])
@@ -39,20 +39,7 @@ function useOpenFunction(dispatch: React.Dispatch<Action>) {
   return openFunction
 }
 
-function useCloseFunction(dispatch: React.Dispatch<Action>) {
-
-  const [closeFunction, setCloseFunction] = useState<() => {}>( () => () => {})
-
-  useEffect(() => {
-    setCloseFunction(() => () => {
-      dispatch({ type: ActionTypes.close })
-    })
-  }, [dispatch])
-
-  return closeFunction
-}
-
-function useLocation(dispatch: React.Dispatch<Action>) {
+export function useLocation(dispatch: React.Dispatch<Action>) {
 
   const defaultLocation = {
     ...ToastLocation,
@@ -71,5 +58,3 @@ function useLocation(dispatch: React.Dispatch<Action>) {
 
   return Location
 }
-
-export { updateStatus, useOpenFunction, useCloseFunction, useLocation }
