@@ -38,7 +38,7 @@ export function Container(
   }
 ) {
 
-  const ToastMemo = memo(Toast)
+  const ToastMemo = memo(Toast, (oldProps, newProps) => oldProps.className === newProps.className && oldProps.content === newProps.content && oldProps.style === newProps.style)
 
   return (
     <div className={ [styles.container, getLocationCSS(location)].join(' ') } style={{ ...getAnimationVariables(openAnimationDuration, closeAnimationDuration), ...getContainerStyle(style) }}>
