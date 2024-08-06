@@ -100,10 +100,21 @@ describe("remove a toast", () => {
     expect(values2.toasts).toEqual(values1.toasts)
   })
 
-  test("toast open is set to false when it's toast id is provided", () =>  {
+  test("toast open is set to false when it's toast id is provided", () => {
     var values = openToast(<>toast</>, DEFAULT_TOAST_CONTAINER)
     values = removeToast(values.toasts[0].id, values)
     expect(values.toasts.length).toEqual(0)
+  })
+
+  test("when there are multiple toasts", () => {
+    var values = DEFAULT_TOAST_CONTAINER
+    values.numOfToasts = 3
+    values = openToast(<>toast 1</>, values)
+    values = openToast(<>toast 2</>, values)
+    expect(values.toasts.length).toEqual(2)
+    values  = removeToast(values.toasts[0].id, values)
+    expect(values.toasts.length).toEqual(1)
+    expect(values.toasts[0].content).toEqual(<>toast 2</>)
   })
 })
 

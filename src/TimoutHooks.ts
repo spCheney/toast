@@ -1,29 +1,6 @@
 import { useState, useEffect } from "react"
 import { ToastValues, Timeout, Action, ActionTypes } from "./Types"
 
-function createTimeout(toast: ToastValues, runnable: () => void, seconds: number) {
-  return {
-    toastId: toast.id,
-    isToastOpen: toast.open,
-    timeout: setTimeout(runnable, seconds * 1000)
-  }
-}
-
-function useRemoveTimeout(setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>, dispatch: React.Dispatch<Action>) {
-  const [removeTimeout, setRemoveTimeout] = useState<(toastId: string) => void>(() => {})
-
-  useEffect(() => {
-    setRemoveTimeout(() =>
-      (toastId: string) => {
-        dispatch({ type: ActionTypes.remove, toastId: toastId })
-        setTimeouts(prevState => prevState.filter(timeout => timeout.toastId !== toastId))
-      }
-    )
-  }, [setTimeouts, dispatch])
-
-  return removeTimeout
-}
-
 export function useAddTimeout(setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number) {
   const [addTimeout, setAddTimeout] = useState<(toast: ToastValues) => void>(() => {})
 
@@ -65,4 +42,27 @@ export function useUpdateTimeout(setTimeouts: React.Dispatch<React.SetStateActio
   }, [setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, removeTimeout])
 
   return updateTimeout
+}
+
+function createTimeout(toast: ToastValues, runnable: () => void, seconds: number) {
+  return {
+    toastId: toast.id,
+    isToastOpen: toast.open,
+    timeout: setTimeout(runnable, seconds * 1000)
+  }
+}
+
+function useRemoveTimeout(setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>, dispatch: React.Dispatch<Action>) {
+  const [removeTimeout, setRemoveTimeout] = useState<(toastId: string) => void>(() => {})
+
+  useEffect(() => {
+    setRemoveTimeout(() =>
+      (toastId: string) => {
+        dispatch({ type: ActionTypes.remove, toastId: toastId })
+        setTimeouts(prevState => prevState.filter(timeout => timeout.toastId !== toastId))
+      }
+    )
+  }, [setTimeouts, dispatch])
+
+  return removeTimeout
 }

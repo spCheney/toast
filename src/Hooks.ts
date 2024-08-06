@@ -17,7 +17,7 @@ export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Act
         updateTimeout(timeoutIndex, toast)
       }
     }
-  }, [toastsToString])
+  }, [toastsToString(toasts)])
 }
 
 function toastsToString(toasts: ToastValues[]) {
