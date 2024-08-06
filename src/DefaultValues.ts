@@ -40,5 +40,5 @@ export const DEFAULT_TOAST_CONTAINER: ToastContainer = {
   timeToastIsOpenFor: 20,
   closeAnimationDuration: 0.3,
   openAnimationDuration: 0.1,
-  multipleToasts: false
+  numOfToasts: 1
 }

@@ -130,11 +130,11 @@ export function updateAnimationDurations(timeToastIsOpenFor: number, openAnimati
 /**
  * uses dispatch to set the multipleToast with if the current values are different then the ones provided
  */
-export function updateMultipleToasts(multipleToasts: boolean, values: ToastContainer, dispatch: React.Dispatch<Action>) {
-  if(multipleToasts !== values.multipleToasts) {
+export function updateNumOfToasts(numOfToasts: number, values: ToastContainer, dispatch: React.Dispatch<Action>) {
+  if(numOfToasts !== values.numOfToasts) {
     dispatch({
-      type: ActionTypes.setMultipleToasts,
-      multipleToasts: multipleToasts
+      type: ActionTypes.setNumOfToasts,
+      numOfToasts: numOfToasts
     })
   }
 }

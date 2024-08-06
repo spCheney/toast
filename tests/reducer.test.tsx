@@ -26,16 +26,21 @@ describe("creating toasts/open type", () => {
     expect(values.toasts[0].content).toEqual(<>test 2</>)
   })
 
-  test("append a toast when multiple toasts is set to true", () => {
+  test.each([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])("append a toast until it reaches %i", (num) => {
     var values = DEFAULT_TOAST_CONTAINER
-    values.multipleToasts = true
-    var values = openToast(<>test 1</>, DEFAULT_TOAST_CONTAINER)
-    expect(values.toasts.length).toEqual(1)
-    expect(values.toasts[0].content).toEqual(<>test 1</>)
+    values.numOfToasts = num
+    for(var i = 0; i < num; i++) {
+      values = openToast(<>test {i + 1}</>, values)
+      expect(values.toasts.length).toEqual(i + 1)
+      expect(values.toasts[i].content).toEqual(<>test {i + 1}</>)
+    }
 
-    values = openToast(<>test 2</>, values)
-    expect(values.toasts.length).toEqual(2)
-    expect(values.toasts[1].content).toEqual(<>test 2</>)
+    values = openToast(<>too many toasts</>, values)
+    expect(values.toasts.length).toEqual(num)
+    if(num > 1) {
+      expect(values.toasts[0].content).toEqual(<>test {2}</>)
+    }
+    expect(values.toasts[values.toasts.length - 1].content).toEqual(<>too many toasts</>)
   })
 
   test("not providing a content value", () => {
@@ -157,15 +162,15 @@ describe("updating animation values", () => {
   })
 })
 
-describe("updating multiple toasts variable", () => {
-  test("multipleToasts won't update if a value isn't provided", () => {
-    var values = setMultipleToasts(undefined, DEFAULT_TOAST_CONTAINER)
-    expect(values.multipleToasts).toEqual(DEFAULT_TOAST_CONTAINER.multipleToasts)
+describe("updating the number of toasts", () => {
+  test("the number of toasts won't update if a value isn't provided", () => {
+    var values = setNumOfToasts(undefined, DEFAULT_TOAST_CONTAINER)
+    expect(values.numOfToasts).toEqual(DEFAULT_TOAST_CONTAINER.numOfToasts)
   })
 
-  test("multipleToasts updates to the provided values", () => {
-    var values = setMultipleToasts(true, DEFAULT_TOAST_CONTAINER)
-    expect(values.multipleToasts).toBeTruthy()
+  test("the number of toasts updates to the provided values", () => {
+    var values = setNumOfToasts(5, DEFAULT_TOAST_CONTAINER)
+    expect(values.numOfToasts).toEqual(5)
   })
 })
 
@@ -216,11 +221,11 @@ function setAnimationDurations(timeToastIsOpenFor: number | undefined, openAnima
   return toastReducer(values, animationAction)
 }
 
-function setMultipleToasts(multipleToasts: boolean | undefined, values: ToastContainer) {
-  const multipleToastsAction: Action = {
-    type: ActionTypes.setMultipleToasts,
-    multipleToasts: multipleToasts
+function setNumOfToasts(num: number | undefined, values: ToastContainer) {
+  const numOfToastsAction: Action = {
+    type: ActionTypes.setNumOfToasts,
+    numOfToasts: num
   }
 
-  return toastReducer(values, multipleToastsAction)
+  return toastReducer(values, numOfToastsAction)
 }

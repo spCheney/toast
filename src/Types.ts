@@ -14,7 +14,7 @@ interface ContainerValues {
   timeToastIsOpenFor: number,
   openAnimationDuration: number,
   closeAnimationDuration: number,
-  multipleToasts: boolean
+  numOfToasts: number
 }
 
 /**
@@ -114,5 +114,5 @@ export const enum ActionTypes {
   remove = "remove",
   setLocation = "set location",
   setAnimationDurations = "set animation durations",
-  setMultipleToasts = "set multiple toasts"
+  setNumOfToasts = "set number of toasts"
 }

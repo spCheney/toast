@@ -15,7 +15,7 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
       } else {
         return {
           ...values,
-          toasts: values.multipleToasts ? [ ...values.toasts, createNew(action.content) ] : [ createNew(action.content) ]
+          toasts: addToast(values, action.content)
         }
       }
     }
@@ -79,20 +79,30 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
         closeAnimationDuration: closeAnimationDuration
       }
     }
-    case ActionTypes.setMultipleToasts: {
-      if(action.multipleToasts === undefined) {
-        console.warn("Multiple Toasts varriable won't be changed or updated without new value being provided")
+    case ActionTypes.setNumOfToasts: {
+      if(action.numOfToasts === undefined) {
+        console.warn("The number of toasts won't be changed or updated without new value being provided")
         return values
       } else {
         return {
           ...values,
-          multipleToasts: action.multipleToasts
+          numOfToasts: action.numOfToasts
         }
       }
     }
     default: {
       return values
     }
+  }
+}
+
+function addToast(values: ToastContainer, content: React.JSX.Element) {
+  const newToast = createNew(content)
+  if(values.numOfToasts <= values.toasts.length) {
+    const toasts = values.toasts.slice(values.toasts.length - values.numOfToasts + 1)
+    return [ ...toasts, newToast ]
+  } else {
+    return [ ...values.toasts, newToast ]
   }
 }
 
