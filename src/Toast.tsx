@@ -11,7 +11,8 @@ export function Toast({
     className,
     content,
     style,
-    close
+    close,
+    id
   } : {
     className: string,
     content: Content,
@@ -19,10 +20,11 @@ export function Toast({
       border: string,
       backgroundColor: string
     },
-    close: () => void
+    close: () => void,
+    id: string
   }): JSX.Element {
 
-  console.log("toast re-rendered at " + new Date())
+  console.log("toast with id: " + id + " re-rendered at " + new Date())
 
   return (
     <div className={ className } style={ style }>
