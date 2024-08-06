@@ -11,11 +11,13 @@ export default function useToast(): [
     timeToastIsOpenFor,
     openAnimationDuration,
     closeAnimationDuration,
+    numOfToasts
   } : {
     style?: Partial<CssStyle>,
     timeToastIsOpenFor?: number,
     openAnimationDuration?: number,
     closeAnimationDuration?: number,
+    numOfToasts?: number
   }) => JSX.Element,
   (content: Content) => void,
   Readonly<LocationInterface>
