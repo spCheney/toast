@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import { getLocationCSS, getAnimationVariables, getCSSClasses, getContainerStyle, getToastStyle } from "./StyleFunctions"
 import { Toast } from "./Toast"
 import { CssStyle, ToastLocation, ToastValues } from "./Types"
@@ -38,10 +38,12 @@ export function Container(
   }
 ) {
 
+  const ToastMemo = memo(Toast)
+
   return (
     <div className={ [styles.container, getLocationCSS(location)].join(' ') } style={{ ...getAnimationVariables(openAnimationDuration, closeAnimationDuration), ...getContainerStyle(style) }}>
       {toasts.map(toast =>
-        <Toast className={ getCSSClasses(toast.open, location) } content={ toast.content } style={ getToastStyle(style) } close={ () => close(toast.id) } key={ toast.id }/>
+        <ToastMemo className={ getCSSClasses(toast.open, location) } content={ toast.content } style={ getToastStyle(style) } close={ () => close(toast.id) } key={ toast.id }/>
       )}
     </div>
   )
