@@ -22,6 +22,8 @@ export function Toast({
     close: () => void
   }): JSX.Element {
 
+  console.log("toast re-rendered at " + new Date())
+
   return (
     <div className={ className } style={ style }>
       <span className={ styles.text }>
