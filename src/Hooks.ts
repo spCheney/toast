@@ -21,7 +21,12 @@ export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Act
 }
 
 function toastsToString(toasts: ToastValues[]) {
-  const removedContent = toasts.map(toast => {toast.id, toast.open})
+  const removedContent = toasts.map(toast => {
+    return {
+      id: toast.id,
+      open: toast.open
+    }
+  })
   return JSON.stringify(removedContent)
 }
 
