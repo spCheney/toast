@@ -124,5 +124,7 @@ function update(toasts: ToastValues[], id: string, status: ToastStatus) {
 }
 
 function remove(toasts: ToastValues[], id: string) {
-  return toasts.filter(toast => toast.id !== id)
+  const updated = toasts.filter(toast => toast.id !== id)
+  console.log(updated)
+  return updated
 }
