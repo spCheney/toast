@@ -35,7 +35,7 @@ export function useCreateTimeout(setTimeouts: React.Dispatch<React.SetStateActio
           }
         }
     )
-  }, [dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration, ])
+  }, [dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration, removeTimeout])
 
   return createTimeout
 }
