@@ -2,7 +2,7 @@ import React from "react"
 import { Container } from "./Container"
 import { DEFAULT_TOAST_CONTAINER } from "./DefaultValues"
 import { populateStyle, updateAnimationDurations, updateNumOfToasts } from "./StyleFunctions"
-import { Action, CssStyle, ActionTypes, ToastContainer } from "./Types"
+import { Action, CssStyle, ActionTypes, ToastContainer, ToastStatus } from "./Types"
 import { toastReducer } from "./reducer"
 
 /**
@@ -34,7 +34,7 @@ export function useContainer(values: ToastContainer, dispatch: React.Dispatch<Ac
       location={ values.location }
       openAnimationDuration={ openAnimationDuration }
       closeAnimationDuration={ closeAnimationDuration }
-      close={ (toastId: string) => dispatch({ type: ActionTypes.close, toastId: toastId }) }
+      close={ (toastId: string) => dispatch({ type: ActionTypes.update, toastId: toastId, status: ToastStatus.closed }) }
     />
   }
 }
