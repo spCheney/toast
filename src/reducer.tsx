@@ -1,4 +1,4 @@
-import { Action, ActionTypes, Content, ToastContainer, ToastLocation, ToastValues } from "./Types";
+import { Action, ActionTypes, Content, ToastContainer, ToastLocation, ToastStatus, ToastValues } from "./Types";
 
 /**
  * updates the values for the toast
@@ -19,9 +19,9 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
         }
       }
     }
-    case ActionTypes.close: {
-      if(action.toastId === undefined) {
-        console.warn("Toasts won't be changed or updated without toastId being provided")
+    case ActionTypes.update: {
+      if(action.toastId === undefined || action.status === undefined) {
+        console.warn("Toasts won't be changed or updated without toastId and staatus being provided")
         return values
       } else if(values.toasts.length === 0) {
         console.warn("Toasts array is empty")
@@ -32,7 +32,7 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
       } else {
         return {
           ...values,
-          toasts: update(values.toasts, action.toastId, false)
+          toasts: update(values.toasts, action.toastId, action.status)
         }
       }
     }
@@ -106,18 +106,18 @@ function addToast(values: ToastContainer, content: React.JSX.Element) {
   }
 }
 
-function createNew(content: Content) {
+function createNew(content: Content) : ToastValues {
   return {
     content: content,
-    open: true,
-    id: Date.now().toString(36) + Math.random().toString(36).substring(2)
+    id: Date.now().toString(36) + Math.random().toString(36).substring(2),
+    status: ToastStatus.created
   }
 }
 
-function update(toasts: ToastValues[], id: string, open: boolean) {
+function update(toasts: ToastValues[], id: string, status: ToastStatus) {
   const index = toasts.findIndex(toast => toast.id === id)
   if(index !== -1) {
-    toasts[index].open = open
+    toasts[index].status = status
   }
 
   return toasts

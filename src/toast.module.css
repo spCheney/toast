@@ -65,6 +65,11 @@
 }
 
 .openLeft {
+  left: var(--margin);
+  transform: translateX(0%);
+}
+
+.openLeftAni {
   animation: linear forwards alternate;
   animation-name: openLeft;
   animation-duration: var(--open-animation-duration);
@@ -73,15 +78,15 @@
 @keyframes openLeft {
   0% {
     left: 0px;
-    transform: translateX(-100%)
+    transform: translateX(-100%);
   }
   100% {
     left: var(--margin);
-    transform: translateX(0%)
+    transform: translateX(0%);
   }
 }
 
-.openRight {
+.openRightAni {
   animation: linear forwards alternate;
   animation-name: openRight;
   animation-duration: var(--open-animation-duration);
@@ -98,7 +103,7 @@
   }
 }
 
-.openTop {
+.openTopAni {
   animation: linear forwards alternate;
   animation-name: openCenter;
   animation-duration: var(--open-animation-duration);
@@ -115,7 +120,7 @@
   }
 }
 
-.openBottom {
+.openBottomAni {
   animation: linear forwards alternate;
   animation-name: openBottom;
   animation-duration: var(--open-animation-duration);

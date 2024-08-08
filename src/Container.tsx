@@ -38,12 +38,10 @@ export function Container(
   }
 ) {
 
-  const ToastMemo = memo(Toast, (oldProps, newProps) => oldProps.className === newProps.className && oldProps.content === newProps.content && oldProps.id === newProps.id)
-
   return (
     <div className={ [styles.container, getLocationCSS(location)].join(' ') } style={{ ...getAnimationVariables(openAnimationDuration, closeAnimationDuration), ...getContainerStyle(style) }}>
       {toasts.map(toast =>
-        <ToastMemo className={ getCSSClasses(toast.open, location) } content={ toast.content } style={ getToastStyle(style) } close={ () => close(toast.id) } key={ toast.id } id={ toast.id }/>
+        <Toast toast={ toast } location={ location } style={ getToastStyle(style) } close={ close } key={ toast.id }/>
       )}
     </div>
   )

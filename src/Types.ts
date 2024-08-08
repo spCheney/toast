@@ -34,7 +34,7 @@ export interface ToastContainer extends ContainerValues {
 export interface ToastValues {
   id: string,
   content: Content,
-  open: boolean
+  status: ToastStatus
 }
 
 /**
@@ -43,7 +43,8 @@ export interface ToastValues {
 export interface Action extends Partial<ContainerValues> {
   type: ActionTypes,
   content?: Content,
-  toastId?: string
+  toastId?: string,
+  status?: ToastStatus
 }
 
 /** adds an update function to the {@link ToastLocation} enum */
@@ -74,7 +75,7 @@ export interface CssStyle {
  */
 export interface Timeout {
   toastId: string,
-  isToastOpen: boolean,
+  toastStatus: ToastStatus,
   timeout: NodeJS.Timeout,
 }
 
@@ -90,13 +91,26 @@ export type Content = React.JSX.Element
  * @property topLeft
  * @property topRight
  */
-  export enum ToastLocation {
+export enum ToastLocation {
   bottomCenter = "BOTTOM-CENTER",
   bottomLeft = "BOTTOM-LEFT",
   bottomRight = "BOTTOM-RIGHT",
   topCenter = "TOP-CENTER",
   topLeft = "TOP-LEFT",
   topRight = "TOP-RIGHT"
+}
+
+
+/**
+ * used for determining the animation and css class for the toast
+ * @property created
+ * @property open
+ * @property closed
+ */
+export enum ToastStatus {
+  created = "created",
+  open = "open",
+  closed = "closed"
 }
 
 /**
@@ -110,7 +124,7 @@ export type Content = React.JSX.Element
  */
 export const enum ActionTypes {
   open = "open",
-  close = "close",
+  update = "update",
   remove = "remove",
   setLocation = "set location",
   setAnimationDurations = "set animation durations",

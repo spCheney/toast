@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react"
 import { Action, ActionTypes, Content, LocationInterface, Timeout, ToastLocation, ToastValues } from "./Types"
-import { useAddTimeout, useUpdateTimeout } from "./TimoutHooks"
+import { useCreateTimeout, useUpdateTimeouts } from "./TimoutHooks"
 
 export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
   const [timeouts, setTimeouts] = useState<Timeout[]>([])
-  const addTimeout = useAddTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration)
-  const updateTimeout = useUpdateTimeout(setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration)
+  const createTimeout = useCreateTimeout(setTimeouts, dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration)
+  const updateTimeouts = useUpdateTimeouts(createTimeout)
 
   useEffect(() => {
     for(var toast of toasts) {
       const timeoutIndex = timeouts.findIndex(timeout => timeout.toastId === toast.id)
       if(timeoutIndex === -1) {
-        addTimeout(toast)
-      } else if(timeouts[timeoutIndex].isToastOpen !== toast.open) {
-        updateTimeout(timeoutIndex, toast)
+        setTimeouts(prevState => [ ...prevState, createTimeout(toast) ])
+      } else if(timeouts[timeoutIndex].toastStatus !== toast.status) {
+        setTimeouts(prevState => updateTimeouts(toast, prevState))
       }
     }
-  }, [toastsToString(toasts)])
+  }, [ toastsToString(toasts) ])
 }
 
 function toastsToString(toasts: ToastValues[]) {
-  const removedContent = toasts.map(toast => {
+  const toastsWithoutContent = toasts.map(toast => {
     return {
       id: toast.id,
-      open: toast.open
+      status: toast.status
     }
   })
-  return JSON.stringify(removedContent)
+  return JSON.stringify(toastsWithoutContent)
 }
 
 export function useOpenFunction(dispatch: React.Dispatch<Action>) {

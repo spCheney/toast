@@ -1,6 +1,6 @@
 import { DEFAULT_STYLE } from "./DefaultValues"
 import styles from "./toast.module.css"
-import { ToastLocation, Action, ActionTypes, CssStyle, ToastContainer } from "./Types"
+import { ToastLocation, Action, ActionTypes, CssStyle, ToastContainer, ToastStatus } from "./Types"
 
 /**
  * @param location see {@link ToastLocation}
@@ -31,12 +31,14 @@ export function getLocationCSS(location: ToastLocation) {
  * @param location see {@link ToastLocation}
  * @returns an array of css classes combined into a string that the toast uses to set it's styling and the animations
  */
-export function getCSSClasses(isOpen: boolean, location: ToastLocation) {
+export function getCSSClasses(status: ToastStatus, location: ToastLocation) {
   var classes = []
-  if(isOpen) {
+  if(status === ToastStatus.created) {
     classes = [styles.toast, getOpenAnimation(location)]
+  } else if(status === ToastStatus.open) {
+    classes = [styles.toast, getOpenStyle(location)]
   } else {
-    classes = [styles.toast, getOpenAnimation(location), styles.close]
+    classes = [styles.toast, getOpenStyle(location), styles.close]
   }
   return classes.join(" ")
 }
@@ -46,6 +48,21 @@ export function getCSSClasses(isOpen: boolean, location: ToastLocation) {
  * @returns a css class to animate the opening of the popup
  */
 function getOpenAnimation(location: ToastLocation) {
+  switch(location) {
+    case ToastLocation.topLeft:
+    case ToastLocation.bottomLeft:
+      return styles.openLeftAni
+    case ToastLocation.topRight:
+    case ToastLocation.bottomRight:
+      return styles.openRightAni
+    case ToastLocation.topCenter:
+      return styles.openTopAni
+    case ToastLocation.bottomCenter:
+      return styles.openBottomAni
+  }
+}
+
+function getOpenStyle(location: ToastLocation) {
   switch(location) {
     case ToastLocation.topLeft:
     case ToastLocation.bottomLeft:

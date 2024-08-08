@@ -1,53 +1,49 @@
 import { useState, useEffect } from "react"
-import { ToastValues, Timeout, Action, ActionTypes } from "./Types"
+import { ToastValues, Timeout, Action, ActionTypes, ToastStatus } from "./Types"
 
-export function useAddTimeout(setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number) {
-  const [addTimeout, setAddTimeout] = useState<(toast: ToastValues) => void>(() => {})
+export function useUpdateTimeouts(createTimeouts: (toast: ToastValues) => Timeout) {
+  const [updateTimeouts, setUpdateTimeouts] = useState<(toast: ToastValues, timeouts: Timeout[]) => Timeout[]>(() => [])
 
   useEffect(() => {
-    setAddTimeout(() =>
-      (toast: ToastValues) => {
-        setTimeouts(prevState => [
-          ...prevState,
-          createTimeout(toast, () => dispatch({ type: ActionTypes.close, toastId: toast.id }), timeToastIsOpenFor + openAnimationDuration)
-        ])
+    setUpdateTimeouts(() =>
+      (toast: ToastValues, timeouts: Timeout[]) => {
+        const index = timeouts.findIndex(timeout => timeout.toastId === toast.id)
+        clearTimeout(timeouts[index].timeout)
+        timeouts[index] = createTimeouts(toast)
+
+        return timeouts
       }
     )
-  }, [dispatch, timeToastIsOpenFor, openAnimationDuration])
+  }, [createTimeouts])
 
-  return addTimeout
+  return updateTimeouts
 }
 
-export function useUpdateTimeout(setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>, dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
-  const [updateTimeout, setUpdateTimeout] = useState<(index: Number, toast: ToastValues) => void>(() => {})
-  const removeTimeout = useRemoveTimeout(setTimeouts, dispatch)
+export function useCreateTimeout(setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>, dispatch: React.Dispatch<Action>, openAnimationDuration: number, timeToastIsOpenFor: number, closeAnimationDuration: number) {
+  const [createTimeout, useCreateTimeout] = useState<(toast: ToastValues) => Timeout>(() => { return {} as Timeout })
+  const removeTimeout = useRemoveTimeout(setTimeouts,  dispatch)
 
   useEffect(() => {
-    setUpdateTimeout(() =>
-      (index: number, toast: ToastValues) => {
-        setTimeouts(prevState => {
-          var updated = prevState
-          clearTimeout(updated[index].timeout)
-
-          if(toast.open) {
-            updated[index] = createTimeout(toast, () => dispatch({ type: ActionTypes.close, toastId: toast.id }), timeToastIsOpenFor + openAnimationDuration)
+    useCreateTimeout(() =>
+        (toast: ToastValues) => {
+          if(toast.status === ToastStatus.created) {
+            return newTimeout(toast, () => dispatch({ type: ActionTypes.update, toastId: toast.id, status: ToastStatus.open }), openAnimationDuration)
+          } else if(toast.status === ToastStatus.open) {
+            return newTimeout(toast, () => dispatch({ type: ActionTypes.update, toastId: toast.id, status: ToastStatus.closed }), timeToastIsOpenFor)
           } else {
-            updated[index] = createTimeout(toast, () => removeTimeout(toast.id), closeAnimationDuration)
+            return newTimeout(toast, () => removeTimeout(toast.id), closeAnimationDuration)
           }
-
-          return updated
-        })
-      }
+        }
     )
-  }, [setTimeouts, dispatch, timeToastIsOpenFor, openAnimationDuration, closeAnimationDuration, removeTimeout])
+  }, [dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration, ])
 
-  return updateTimeout
+  return createTimeout
 }
 
-function createTimeout(toast: ToastValues, runnable: () => void, seconds: number) {
+function newTimeout(toast: ToastValues, runnable: () => void, seconds: number) {
   return {
     toastId: toast.id,
-    isToastOpen: toast.open,
+    toastStatus: toast.status,
     timeout: setTimeout(runnable, seconds * 1000)
   }
 }

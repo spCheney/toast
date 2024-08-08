@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import styles from "./toast.module.css"
-import { Content } from "./Types"
+import { Content, ToastLocation, ToastValues } from "./Types"
+import { getCSSClasses } from "./StyleFunctions"
 
 /**
  * A simple popup that enters the screen similiar to toast popping out
@@ -8,30 +9,34 @@ import { Content } from "./Types"
  * component
  */
 export function Toast({
-    className,
-    content,
+    toast,
+    location,
     style,
     close,
-    id
   } : {
-    className: string,
-    content: Content,
+    toast: ToastValues,
+    location: ToastLocation,
     style: {
       border: string,
       backgroundColor: string
     },
-    close: () => void,
-    id: string
+    close: (id: string) => void,
   }): JSX.Element {
 
-  console.log("toast with id: " + id + " re-rendered at " + new Date())
+  const [className, setClassName] = useState("")
+
+  useEffect(() => {
+    setClassName( getCSSClasses(toast.status, location) )
+  }, [toast.status, location])
+
+  console.log("toast with id: " + toast.id + " re-rendered at " + new Date())
 
   return (
     <div className={ className } style={ style }>
       <span className={ styles.text }>
-        { content }
+        { toast.content }
       </span>
-      <button onClick={ close } className={ styles.closeBtn }>x</button>
+      <button onClick={ () => close(toast.id) } className={ styles.closeBtn }>x</button>
     </div>
   )
 }
