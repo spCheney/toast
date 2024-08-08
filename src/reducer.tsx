@@ -49,7 +49,7 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
       } else {
         return {
           ...values,
-          toasts: remove(values.toasts, action.toastId!)
+          toasts: remove(values.toasts, action.toastId)
         }
       }
     }
