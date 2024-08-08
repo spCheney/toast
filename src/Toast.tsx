@@ -29,8 +29,6 @@ export function Toast({
     setClassName( getCSSClasses(toast.status, location) )
   }, [toast.status, location])
 
-  console.log("toast with id: " + toast.id + " re-rendered at " + new Date())
-
   return (
     <div className={ className } style={ style }>
       <span className={ styles.text }>
