@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { Action, ActionTypes, Content, LocationInterface, Timeout, ToastLocation, ToastValues } from "./Types"
-import { useCreateTimeout } from "./TimoutHooks"
+import { useCreateTimeout, useUpdateTimeouts } from "./TimoutHooks"
 
 export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
   const [timeouts, setTimeouts] = useState<Timeout[]>([])
   const createTimeout = useCreateTimeout(setTimeouts, dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration)
+  const updateTimeouts = useUpdateTimeouts(createTimeout, setTimeouts)
 
   useEffect(() => {
     for(var toast of toasts) {
@@ -13,12 +14,7 @@ export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Act
       if(timeoutIndex === -1) {
         setTimeouts(prevState => [ ...prevState, createTimeout(toast) ])
       } else if(timeouts[timeoutIndex].toastStatus !== toast.status) {
-        clearTimeout(timeouts[timeoutIndex].timeout)
-        var newTimeout = createTimeout(toast)
-        setTimeouts(prevState => {
-          prevState[timeoutIndex] = newTimeout
-          return prevState
-        })
+        updateTimeouts(toast, timeouts[timeoutIndex].timeout, timeoutIndex)
       }
     }
   }, [ toastsToString(toasts), createTimeout ])

@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react"
 import { ToastValues, Timeout, Action, ActionTypes, ToastStatus } from "./Types"
 
-export function useUpdateTimeouts(createTimeouts: (toast: ToastValues) => Timeout) {
-  const [updateTimeouts, setUpdateTimeouts] = useState<(toast: ToastValues, timeouts: Timeout[], index: number) => Timeout[]>(() => [])
+export function useUpdateTimeouts(createTimeout: (toast: ToastValues) => Timeout, setTimeouts: React.Dispatch<React.SetStateAction<Timeout[]>>) {
+  const [updateTimeouts, setUpdateTimeouts] = useState<(toast: ToastValues, timeout: NodeJS.Timeout, index: number) => void>(() => {})
 
   useEffect(() => {
     setUpdateTimeouts(() =>
-      (toast: ToastValues, timeouts: Timeout[], index: number) => {
-        var updated = timeouts
-        clearTimeout(timeouts[index].timeout)
-        updated[index] = createTimeouts(toast)
-        return updated
+      (toast: ToastValues, timeout: NodeJS.Timeout, index: number) => {
+        clearTimeout(timeout)
+        var newTimeout = createTimeout(toast)
+
+        setTimeouts(prevState => {
+          prevState[index] = newTimeout
+          return prevState
+        })
       }
     )
-  }, [createTimeouts])
+  }, [createTimeout, setTimeouts])
 
   return updateTimeouts
 }
