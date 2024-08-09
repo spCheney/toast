@@ -2,16 +2,15 @@ import { useState, useEffect } from "react"
 import { ToastValues, Timeout, Action, ActionTypes, ToastStatus } from "./Types"
 
 export function useUpdateTimeouts(createTimeouts: (toast: ToastValues) => Timeout) {
-  const [updateTimeouts, setUpdateTimeouts] = useState<(toast: ToastValues, timeouts: Timeout[]) => Timeout[]>(() => [])
+  const [updateTimeouts, setUpdateTimeouts] = useState<(toast: ToastValues, timeouts: Timeout[], index: number) => Timeout[]>(() => [])
 
   useEffect(() => {
     setUpdateTimeouts(() =>
-      (toast: ToastValues, timeouts: Timeout[]) => {
-        const index = timeouts.findIndex(timeout => timeout.toastId === toast.id)
+      (toast: ToastValues, timeouts: Timeout[], index: number) => {
+        var updated = timeouts
         clearTimeout(timeouts[index].timeout)
-        timeouts[index] = createTimeouts(toast)
-
-        return timeouts
+        updated[index] = createTimeouts(toast)
+        return updated
       }
     )
   }, [createTimeouts])

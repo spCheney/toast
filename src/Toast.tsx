@@ -23,7 +23,7 @@ export function Toast({
     close: (id: string) => void,
   }): JSX.Element {
 
-  const [className, setClassName] = useState(styles.hide)
+  const [className, setClassName] = useState( getCSSClasses(toast.status, location) )
 
   useEffect(() => {
     setClassName( getCSSClasses(toast.status, location) )
