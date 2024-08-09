@@ -13,11 +13,11 @@ export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Act
       if(timeoutIndex === -1) {
         setTimeouts(prevState => [ ...prevState, createTimeout(toast) ])
       } else if(timeouts[timeoutIndex].toastStatus !== toast.status) {
+        clearTimeout(timeouts[timeoutIndex].timeout)
+        var newTimeout = createTimeout(toast)
         setTimeouts(prevState => {
-          var updated = prevState
-          clearTimeout(prevState[timeoutIndex].timeout)
-          updated[timeoutIndex] = createTimeout(toast)
-          return updated
+          prevState[timeoutIndex] = newTimeout
+          return prevState
         })
       }
     }
