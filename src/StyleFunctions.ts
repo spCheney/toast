@@ -133,7 +133,8 @@ export function getToastStyle(style: CssStyle, multipleToasts: boolean) {
   } else {
     return {
       border: style.border,
-      backgroundColor: style.backgroundColor
+      backgroundColor: style.backgroundColor,
+      width: "calc(100% + 28px)"
     }
   }
 }

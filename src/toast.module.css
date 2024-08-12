@@ -66,6 +66,9 @@
   font-style: inherit;
   font-weight: inherit;
   font-size: inherit;
+  position: absolute;
+  right: 0;
+  height: 100%;
 }
 
 .openLeft {
