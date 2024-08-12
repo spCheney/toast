@@ -47,12 +47,15 @@
   overflow: hidden;
 }
 
+.toast * {
+  padding: 16px 24px;
+}
+
 .hide {
   display: none;
 }
 
 .text {
-  padding: 16px 24px;
   line-height: 1.4;
 }
 
@@ -66,7 +69,7 @@
   font-style: inherit;
   font-weight: inherit;
   font-size: inherit;
-  position: relative;
+  position: absolute;
   right: 0;
 }
 
