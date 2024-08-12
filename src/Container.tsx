@@ -21,6 +21,7 @@ export function Container(
     location,
     openAnimationDuration,
     closeAnimationDuration,
+    numOfToasts,
     close,
   } : {
     /** see {@link Style} */
@@ -33,6 +34,7 @@ export function Container(
     openAnimationDuration: number,
     /** how long it takes the toast to close */
     closeAnimationDuration: number,
+    numOfToasts: number,
     /** used to close the toast */
     close: (toastId: string) => void
   }
@@ -41,7 +43,7 @@ export function Container(
   return (
     <div className={ [styles.container, getLocationCSS(location)].join(' ') } style={{ ...getAnimationVariables(openAnimationDuration, closeAnimationDuration), ...getContainerStyle(style) }}>
       {toasts.map(toast =>
-        <Toast toast={ toast } location={ location } style={ getToastStyle(style) } close={ close } key={ toast.id }/>
+        <Toast toast={ toast } location={ location } style={ getToastStyle(style, numOfToasts > 1) } close={ close } key={ toast.id }/>
       )}
     </div>
   )

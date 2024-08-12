@@ -34,6 +34,7 @@ export function useContainer(values: ToastContainer, dispatch: React.Dispatch<Ac
       location={ values.location }
       openAnimationDuration={ openAnimationDuration }
       closeAnimationDuration={ closeAnimationDuration }
+      numOfToasts={ numOfToasts }
       close={ (toastId: string) => dispatch({ type: ActionTypes.update, toastId: toastId, status: ToastStatus.closed }) }
     />
   }

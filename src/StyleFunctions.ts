@@ -121,12 +121,20 @@ export function getContainerStyle(style: CssStyle) {
   }
 }
 
-export function getToastStyle(style: CssStyle) {
+export function getToastStyle(style: CssStyle, multipleToasts: boolean) {
   style = populateStyle(style)
 
-  return {
-    border: style.border,
-    backgroundColor: style.backgroundColor
+  if(multipleToasts) {
+    return {
+      border: style.border,
+      backgroundColor: style.backgroundColor,
+      width: "350px"
+    }
+  } else {
+    return {
+      border: style.border,
+      backgroundColor: style.backgroundColor
+    }
   }
 }
 
