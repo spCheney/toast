@@ -130,7 +130,7 @@ export function getToastStyle(style: CssStyle, multipleToasts: boolean) {
       border: style.border,
       backgroundColor: style.backgroundColor,
       textAlign: style.textAlign,
-      width: "350px",
+      width: "375px",
     }
   } else {
     return {
