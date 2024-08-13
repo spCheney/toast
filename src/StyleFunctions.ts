@@ -105,7 +105,8 @@ export function populateStyle(style?: Partial<CssStyle>) : CssStyle {
     fontStyle: style.fontStyle == undefined ? DEFAULT_STYLE.fontStyle : style.fontStyle,
     fontWeight: style.fontWeight == undefined ? DEFAULT_STYLE.fontWeight : style.fontWeight,
     border: style.border == undefined ? DEFAULT_STYLE.border : style.border,
-    backgroundColor: style.backgroundColor == undefined ? DEFAULT_STYLE.backgroundColor : style.backgroundColor
+    backgroundColor: style.backgroundColor == undefined ? DEFAULT_STYLE.backgroundColor : style.backgroundColor,
+    textAlign: style.textAlign == undefined ? DEFAULT_STYLE.textAlign : style.textAlign
   }
 }
 
@@ -128,13 +129,15 @@ export function getToastStyle(style: CssStyle, multipleToasts: boolean) {
     return {
       border: style.border,
       backgroundColor: style.backgroundColor,
-      width: "350px"
+      textAlign: style.textAlign,
+      width: "350px",
     }
   } else {
     return {
       border: style.border,
       backgroundColor: style.backgroundColor,
-      width: "calc(100% + 28px)"
+      textAlign: style.textAlign,
+      width: "calc(100% + 28px)",
     }
   }
 }

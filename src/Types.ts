@@ -68,6 +68,7 @@ export interface CssStyle {
   fontWeight: string | number,
   border: string,
   backgroundColor: string,
+  textAlign: string
 }
 
 /**

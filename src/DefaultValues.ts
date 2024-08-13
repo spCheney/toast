@@ -18,7 +18,8 @@ export const DEFAULT_STYLE: CssStyle = {
   fontSize: 16,
   fontWeight: 400,
   border: "2px solid transparent",
-  backgroundColor: "#fafafa"
+  backgroundColor: "#fafafa",
+  textAlign: "center"
 }
 
 /**
