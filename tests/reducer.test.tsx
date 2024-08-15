@@ -1,6 +1,6 @@
 import React from "react";
 import { toastReducer } from "../src/reducer";
-import { Action, ActionTypes, Content, ToastContainer, ToastLocation } from "../src/Types";
+import { Action, ActionTypes, Content, ToastContainer, ToastLocation, ToastStatus } from "../src/Types";
 import { DEFAULT_TOAST_CONTAINER } from "../src/DefaultValues"
 
 describe("toast reducer", () => {
@@ -57,28 +57,42 @@ describe("creating toasts/open type", () => {
   })
 })
 
-describe("close a toast/set open parameter to false", () => {
+describe("updating the status of a toast", () => {
   test("when toast array is empty", () => {
-    const values = closeToast("test id", DEFAULT_TOAST_CONTAINER)
+    const values = updateToastStatus("test id", ToastStatus.open, DEFAULT_TOAST_CONTAINER)
     expect(values.toasts).toEqual(DEFAULT_TOAST_CONTAINER.toasts)
   })
 
   test("when a toast with the provided toast id doesn't exist", () => {
     var values = openToast(<>toast</>, DEFAULT_TOAST_CONTAINER)
-    values = closeToast("toast id doesn't exist", values)
-    expect(values.toasts[0].open).toBeTruthy()
+    values = updateToastStatus("toast id doesn't exist", ToastStatus.open, values)
+    expect(values.toasts[0].status).toEqual(ToastStatus.created)
+
+    values = updateToastStatus("toast id doesn't exist", ToastStatus.closed, values)
+    expect(values.toasts[0].status).toEqual(ToastStatus.created)
   })
 
   test("toasts array doesn't change when no toast id is provided", () => {
     var values1 = openToast(<>toast</>, DEFAULT_TOAST_CONTAINER)
-    var values2 = closeToast(undefined, values1)
+    var values2 = updateToastStatus(undefined, ToastStatus.open, values1)
     expect(values2.toasts).toEqual(values1.toasts)
   })
 
-  test("toast open is set to false when it's toast id is provided", () =>  {
+  test("toasts array doesn't change when no status is provided", () => {
+    var values1 = openToast(<>toast</>, DEFAULT_TOAST_CONTAINER)
+    var values2 = updateToastStatus(values1.toasts[0].id, undefined, values1)
+    expect(values2.toasts).toEqual(values1.toasts)
+  })
+
+  test("toast status gets updated after calling updating dispatch function", () => {
     var values = openToast(<>toast</>, DEFAULT_TOAST_CONTAINER)
-    values = closeToast(values.toasts[0].id, values)
-    expect(values.toasts[0].open).toBeFalsy()
+    expect(values.toasts[0].status).toEqual(ToastStatus.created)
+    values = updateToastStatus(values.toasts[0].id, ToastStatus.open, values)
+    expect(values.toasts[0].status).toEqual(ToastStatus.open)
+    values = updateToastStatus(values.toasts[0].id, ToastStatus.closed, values)
+    expect(values.toasts[0].status).toEqual(ToastStatus.closed)
+    values = updateToastStatus(values.toasts[0].id, ToastStatus.created, values)
+    expect(values.toasts[0].status).toEqual(ToastStatus.created)
   })
 })
 
@@ -91,7 +105,7 @@ describe("remove a toast", () => {
   test("when a toast with the provided toast id doesn't exist", () => {
     var values = openToast(<>toast</>, DEFAULT_TOAST_CONTAINER)
     values = removeToast("toast id doesn't exist", values)
-    expect(values.toasts[0].open).toBeTruthy()
+    expect(values.toasts[0].status).toEqual(ToastStatus.created)
   })
 
   test("toasts array doesn't change when no toast id is provided", () => {
@@ -194,13 +208,14 @@ function openToast(content: Content | undefined, values: ToastContainer) {
   return toastReducer(values, addAction)
 }
 
-function closeToast(toastId: string | undefined, values: ToastContainer) {
-  const closeAction: Action = {
-    type: ActionTypes.close,
-    toastId: toastId
+function updateToastStatus(toastId: string | undefined, status: ToastStatus | undefined, values: ToastContainer) {
+  const updateAction: Action = {
+    type: ActionTypes.update,
+    toastId: toastId,
+    status: status
   }
 
-  return toastReducer(values, closeAction)
+  return toastReducer(values, updateAction)
 }
 
 function removeToast(toastId: string | undefined, values: ToastContainer) {

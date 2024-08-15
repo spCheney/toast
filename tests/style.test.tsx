@@ -1,7 +1,7 @@
 import { useReducer } from "react"
 import { DEFAULT_STYLE, DEFAULT_TOAST_CONTAINER } from "../src/DefaultValues"
 import { getAnimationVariables, getContainerStyle, getCSSClasses, getLocationCSS, getToastStyle, populateStyle, updateAnimationDurations } from "../src/StyleFunctions"
-import { CssStyle, ToastLocation } from "../src/Types"
+import { CssStyle, ToastLocation, ToastStatus } from "../src/Types"
 import { toastReducer } from "../src/reducer";
 
 describe("getting the location class", () => {
@@ -41,11 +41,11 @@ describe("getting the location class", () => {
   })
 })
 
-describe.each([true, false])("get class for toast", (open) => {
-  test(`classes when open is ${open}`, () => {
-    var css = getCSSClasses(open, ToastLocation.topLeft)
+describe.each([ToastStatus.created, ToastStatus.open, ToastStatus.closed])("get class for toast", (status) => {
+  test(`classes when status is ${status}`, () => {
+    var css = getCSSClasses(status, ToastLocation.topLeft)
     expect(css).toMatch(/(toast)/i)
-    if(open) {
+    if(status !== ToastStatus.closed) {
       expect(css).not.toMatch(/(close)/i)
     } else {
       expect(css).toMatch(/(close)/i)
@@ -53,27 +53,51 @@ describe.each([true, false])("get class for toast", (open) => {
   })
 
   test("left", () => {
-    var css = getCSSClasses(open, ToastLocation.topLeft)
-    expect(css).toMatch(/(openLeft)/i)
-    css = getCSSClasses(open, ToastLocation.bottomLeft)
-    expect(css).toMatch(/(openLeft)/i)
+    var css1 = getCSSClasses(status, ToastLocation.topLeft)
+    var css2 = getCSSClasses(status, ToastLocation.bottomLeft)
+    if(status === ToastStatus.created)  {
+      expect(css1).toMatch(/(openLeftAni)/i)
+      expect(css2).toMatch(/(openLeftAni)/i)
+    } else {
+      expect(css1).toMatch(/(openLeft)/i)
+      expect(css2).toMatch(/(openLeft)/i)
+      expect(css1).not.toMatch(/(openLeftAni)/i)
+      expect(css2).not.toMatch(/(openLeftAni)/i)
+    }
   })
 
   test("right", () => {
-    var css = getCSSClasses(open, ToastLocation.topRight)
-    expect(css).toMatch(/(openRight)/i)
-    css = getCSSClasses(open, ToastLocation.bottomRight)
-    expect(css).toMatch(/(openRight)/i)
+    var css1 = getCSSClasses(status, ToastLocation.topRight)
+    var css2 = getCSSClasses(status, ToastLocation.bottomRight)
+    if(status === ToastStatus.created)  {
+      expect(css1).toMatch(/(openRightAni)/i)
+      expect(css2).toMatch(/(openRightAni)/i)
+    } else {
+      expect(css1).toMatch(/(openRight)/i)
+      expect(css2).toMatch(/(openRight)/i)
+      expect(css1).not.toMatch(/(openRightAni)/i)
+      expect(css2).not.toMatch(/(openRightAni)/i)
+    }
   })
 
   test("top", () => {
-    var css = getCSSClasses(open, ToastLocation.topCenter)
-    expect(css).toMatch(/(openTop)/i)
+    var css = getCSSClasses(status, ToastLocation.topCenter)
+    if(status === ToastStatus.created)  {
+      expect(css).toMatch(/(openTopAni)/i)
+    } else {
+      expect(css).toMatch(/(openTop)/i)
+      expect(css).not.toMatch(/(openTopAni)/i)
+    }
   })
 
   test("bottom", () => {
-    var css = getCSSClasses(open, ToastLocation.bottomCenter)
-    expect(css).toMatch(/(openBottom)/i)
+    var css = getCSSClasses(status, ToastLocation.bottomCenter)
+    if(status === ToastStatus.created)  {
+      expect(css).toMatch(/(openBottomAni)/i)
+    } else {
+      expect(css).toMatch(/(openBottom)/i)
+      expect(css).not.toMatch(/(openBottomAni)/i)
+    }
   })
 })
 
@@ -195,7 +219,8 @@ describe("get inline styles for the container of the toasts", () => {
       fontStyle: "italics",
       fontWeight: 100,
       border: "1px solid black",
-      backgroundColor: "asdff"
+      backgroundColor: "asdff",
+      textAlign: "left"
     })
     expect(container.color).toEqual("red")
     expect(container.fontFamily).toEqual("times new roman")
@@ -207,15 +232,24 @@ describe("get inline styles for the container of the toasts", () => {
 
 describe("get inline styles for toast", () => {
   test("empty object", () => {
-    const container  = getToastStyle({} as CssStyle)
+    const container  = getToastStyle({} as CssStyle, false)
     expect(container.border).toEqual(DEFAULT_STYLE.border)
     expect(container.backgroundColor).toEqual(DEFAULT_STYLE.backgroundColor)
+    expect(container.textAlign).toEqual(DEFAULT_STYLE.textAlign)
   })
 
   test("default", () => {
-    const container = getToastStyle(DEFAULT_STYLE)
+    const container = getToastStyle(DEFAULT_STYLE, false)
     expect(container.border).toEqual(DEFAULT_STYLE.border)
     expect(container.backgroundColor).toEqual(DEFAULT_STYLE.backgroundColor)
+    expect(container.textAlign).toEqual(DEFAULT_STYLE.textAlign)
+  })
+
+  test("getting width based on if there are multiple toasts", () => {
+    const toast1  = getToastStyle({} as CssStyle, true)
+    const toast2  = getToastStyle({} as CssStyle, false)
+    expect(toast1.width).toEqual("375px")
+    expect(toast2.width).toEqual("calc(100% + 28px)")
   })
 
   test("custom values", () => {
@@ -226,9 +260,11 @@ describe("get inline styles for toast", () => {
       fontStyle: "italics",
       fontWeight: 100,
       border: "1px solid black",
-      backgroundColor: "asdff"
-    })
+      backgroundColor: "asdff",
+      textAlign: "left"
+    }, false)
     expect(container.border).toEqual("1px solid black")
     expect(container.backgroundColor).toEqual("asdff")
+    expect(container.textAlign).toEqual("left")
   })
 })
