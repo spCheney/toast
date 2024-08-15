@@ -21,7 +21,7 @@ export function toastReducer(values: ToastContainer, action: Action): ToastConta
     }
     case ActionTypes.update: {
       if(action.toastId === undefined || action.status === undefined) {
-        console.warn("Toasts won't be changed or updated without toastId and staatus being provided")
+        console.warn("Toasts won't be changed or updated without toastId and status being provided")
         return values
       } else if(values.toasts.length === 0) {
         console.warn("Toasts array is empty")

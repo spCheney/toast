@@ -10,6 +10,12 @@ import { ToastContainer, ToastLocation, CssStyle } from "./Types";
  * fontSize - 16
  *
  * fontWeight - 400
+ *
+ * border - 2px solid transparent
+ *
+ * backgroundColor - #fafafa
+ *
+ * textAlign - center
  */
 export const DEFAULT_STYLE: CssStyle = {
   color: "black",
@@ -33,7 +39,7 @@ export const DEFAULT_STYLE: CssStyle = {
  *
  * openAnimationDuration - 0.1
  *
- * multipleToasts - false
+ * numOfToasts - 1
  */
 export const DEFAULT_TOAST_CONTAINER: ToastContainer = {
   toasts: [],

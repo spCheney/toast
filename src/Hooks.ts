@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import { Action, ActionTypes, Content, LocationInterface, Timeout, ToastLocation, ToastValues } from "./Types"
-import { useCreateTimeout, useUpdateTimeouts } from "./TimoutHooks"
+import { Action, ActionTypes, Content, LocationInterface, Timeout, ToastLocation, ToastStatus, ToastValues } from "./Types"
+import { useCreateTimeout, useRemoveTT, useUpdateTimeouts } from "./TimoutHooks"
+import { getCSSClasses } from "./StyleFunctions"
 
 export function updateStatus(toasts: ToastValues[], dispatch: React.Dispatch<Action>, timeToastIsOpenFor: number, openAnimationDuration: number, closeAnimationDuration: number) {
 
   const [timeouts, setTimeouts] = useState<Timeout[]>([])
-  const createTimeout = useCreateTimeout(setTimeouts, dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration)
+  const removeTT = useRemoveTT(setTimeouts, dispatch)
+  const createTimeout = useCreateTimeout(removeTT , dispatch, openAnimationDuration, timeToastIsOpenFor, closeAnimationDuration)
   const updateTimeouts = useUpdateTimeouts(createTimeout, setTimeouts)
 
   useEffect(() => {
@@ -61,4 +63,14 @@ export function useLocation(dispatch: React.Dispatch<Action>) {
   }, [dispatch])
 
   return Location
+}
+
+export function useToastCSSClass(status: ToastStatus, location: ToastLocation) {
+  const [toastCSSClass, setToastCSSClass] = useState( getCSSClasses(status, location) )
+
+  useEffect(() => {
+    setToastCSSClass( getCSSClasses(status, location) )
+  }, [status, location])
+
+  return toastCSSClass
 }

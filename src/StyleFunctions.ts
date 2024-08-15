@@ -27,7 +27,7 @@ export function getLocationCSS(location: ToastLocation) {
 }
 
 /**
- * @param status whether the toast should be opened or closed
+ * @param status deteremines what css class is needed
  * @param location see {@link ToastLocation}
  * @returns an array of css classes combined into a string that the toast uses to set it's styling and the animations
  */
@@ -62,6 +62,10 @@ function getOpenAnimation(location: ToastLocation) {
   }
 }
 
+/**
+ * @param location see {@link ToastLocation}
+ * @returns a css class for once the toast is open
+ */
 function getOpenStyle(location: ToastLocation) {
   switch(location) {
     case ToastLocation.topLeft:
@@ -110,6 +114,10 @@ export function populateStyle(style?: Partial<CssStyle>) : CssStyle {
   }
 }
 
+/**
+ * @param style all of the customizable styles
+ * @returns the inline styles for the container
+ */
 export function getContainerStyle(style: CssStyle) {
   style = populateStyle(style)
 
@@ -122,6 +130,11 @@ export function getContainerStyle(style: CssStyle) {
   }
 }
 
+/**
+ * @param style all of the customizable styles
+ * @param multipleToasts whether or not multiple toasts can be displayed
+ * @returns the inline styles for each toast
+ */
 export function getToastStyle(style: CssStyle, multipleToasts: boolean) {
   style = populateStyle(style)
 

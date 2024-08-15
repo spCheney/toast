@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import styles from "./toast.module.css"
 import { Content, ToastLocation, ToastValues } from "./Types"
 import { getCSSClasses } from "./StyleFunctions"
+import { useToastCSSClass } from "./Hooks"
 
 /**
  * A simple popup that enters the screen similiar to toast popping out
@@ -23,11 +24,7 @@ export function Toast({
     close: (id: string) => void,
   }): JSX.Element {
 
-  const [className, setClassName] = useState( getCSSClasses(toast.status, location) )
-
-  useEffect(() => {
-    setClassName( getCSSClasses(toast.status, location) )
-  }, [toast.status, location])
+  const className = useToastCSSClass(toast.status, location)
 
   return (
     <div className={ className } style={ style }>

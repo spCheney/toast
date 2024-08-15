@@ -6,12 +6,12 @@ import styles from "./toast.module.css"
 
 /**
  * The container for the toast that will set it's location and styling
- * @param style see {@link iStyle}
- * @param status whether the toast is open or not
- * @param content what will be displayed in the toast popup
+ * @param style see {@link CssStyle}
+ * @param toasts an array of the toasts that will be displayed
  * @param location see {@link ToastLocation}
  * @param openAnimationDuration how long it takes the toast to open
  * @param closeAnimationDuration how long it takes the toast to close
+ * @param numOfToasts the max number of toasts in the container
  * @param close used to close the toast
  */
 export function Container(
@@ -26,7 +26,7 @@ export function Container(
   } : {
     /** see {@link Style} */
     style: CssStyle,
-    /** whether the toast is open or not */
+    /** an array of the toasts that will be displayed */
     toasts: ToastValues[],
     /** see {@link ToastLocation} */
     location: ToastLocation,
@@ -34,8 +34,9 @@ export function Container(
     openAnimationDuration: number,
     /** how long it takes the toast to close */
     closeAnimationDuration: number,
+    /** the max number of toasts in the container */
     numOfToasts: number,
-    /** used to close the toast */
+    /** used to close a specified toast */
     close: (toastId: string) => void
   }
 ) {

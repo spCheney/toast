@@ -7,7 +7,7 @@ import { updateStatus } from "./Hooks"
  * @property timeToastIsOpenFor - how long the toast will be open until the toast automatically closes
  * @property openAnimationDuration - how long the open animation will last
  * @property closeAnimationDuration - how long the close animation will last
- * @property multipleToasts - what happens in the open dispatch function (if true an additional toast will be added if not it will delete the existing toast before adding a new one)
+ * @property numOfToasts - what happens in the open dispatch function (if true an additional toast will be added if not it will delete the existing toast before adding a new one)
  */
 interface ContainerValues {
   location: ToastLocation,
@@ -59,6 +59,9 @@ export interface LocationInterface extends Record<keyof typeof ToastLocation, To
  * @property fontStyle
  * @property fontSize
  * @property fontWeight
+ * @property border
+ * @property backgroundColor
+ * @property textAlign
  */
 export interface CssStyle {
   color: string,
@@ -121,7 +124,7 @@ export enum ToastStatus {
  * @property remove
  * @property setLocation
  * @property setAnimationDurations
- * @property setMultipleToasts
+ * @property setNumOfToasts
  */
 export const enum ActionTypes {
   open = "open",
